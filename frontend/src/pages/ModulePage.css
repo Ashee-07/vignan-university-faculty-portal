@@ -1,0 +1,678 @@
+/* =========================================
+   SHARED MODULE PAGE STYLES
+========================================= */
+
+.module-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%);
+  font-family: "Poppins", sans-serif;
+}
+
+/* Header */
+.module-header {
+  background: linear-gradient(135deg, #7c3aed, #a78bfa);
+  color: white;
+  padding: 30px 50px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.header-content h1 {
+  font-size: 2.2rem;
+  margin: 10px 0;
+  font-weight: 700;
+}
+
+.header-content p {
+  font-size: 1.1rem;
+  opacity: 0.95;
+  margin: 5px 0 0 0;
+}
+
+.back-btn {
+  background: rgba(255, 255, 255, 0.2);
+  border: 2px solid white;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-bottom: 15px;
+}
+
+.back-btn:hover {
+  background: white;
+  color: #7c3aed;
+}
+
+/* Main Content */
+.module-main {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 40px 50px;
+}
+
+/* Action Bar */
+.action-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.search-box {
+  display: flex;
+  gap: 10px;
+}
+
+.search-box input {
+  padding: 12px 20px;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  min-width: 300px;
+}
+
+.search-box button {
+  padding: 12px 20px;
+  background: #7c3aed;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1.2rem;
+}
+
+/* Buttons */
+.primary-btn {
+  background: linear-gradient(135deg, #7c3aed, #a78bfa);
+  color: white;
+  border: none;
+  padding: 14px 28px;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);
+}
+
+.primary-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(124, 58, 237, 0.4);
+}
+
+.secondary-btn {
+  background: white;
+  color: #7c3aed;
+  border: 2px solid #7c3aed;
+  padding: 12px 24px;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.secondary-btn:hover {
+  background: #7c3aed;
+  color: white;
+}
+
+.submit-btn {
+  background: #4CAF50;
+  color: white;
+  border: none;
+  padding: 14px 30px;
+  border-radius: 10px;
+  font-size: 1.05rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 20px;
+}
+
+.submit-btn:hover {
+  background: #45a049;
+  transform: translateY(-2px);
+}
+
+.cancel-btn {
+  background: #f44336;
+  color: white;
+  border: none;
+  padding: 14px 30px;
+  border-radius: 10px;
+  font-size: 1.05rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.cancel-btn:hover {
+  background: #da190b;
+}
+
+/* Forms */
+.form-row {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 25px;
+  flex-wrap: wrap;
+  align-items: end;
+}
+
+.form-group {
+  flex: 1;
+  min-width: 250px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #333;
+}
+
+.form-input, .form-select {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: "Poppins", sans-serif;
+  transition: border-color 0.3s ease;
+}
+
+.form-input:focus, .form-select:focus {
+  outline: none;
+  border-color: #7c3aed;
+}
+
+.button-group {
+  display: flex;
+  gap: 15px;
+}
+
+/* Create Form */
+.create-form {
+  background: white;
+  padding: 30px;
+  border-radius: 16px;
+  margin-bottom: 30px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.create-form h3 {
+  color: #7c3aed;
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.form-grid input, .form-grid select {
+  padding: 12px 16px;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.create-form textarea {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: "Poppins", sans-serif;
+  margin-bottom: 20px;
+  resize: vertical;
+}
+
+.form-actions {
+  display: flex;
+  gap: 15px;
+}
+
+/* Content Grid */
+.content-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 25px;
+}
+
+.content-card {
+  background: white;
+  border-radius: 14px;
+  padding: 25px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+.content-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(124, 58, 237, 0.15);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  margin-bottom: 15px;
+}
+
+.card-header h3 {
+  color: #7c3aed;
+  font-size: 1.2rem;
+  flex: 1;
+}
+
+.badge {
+  background: #7c3aed;
+  color: white;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.card-body {
+  margin-bottom: 20px;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  color: #666;
+}
+
+.status-badge {
+  background: #e3f2fd;
+  color: #1976d2;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.progress-bar {
+  height: 8px;
+  background: #f0f0f0;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #7c3aed, #a78bfa);
+  transition: width 0.3s ease;
+}
+
+.card-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.action-btn {
+  padding: 8px 16px;
+  border: 2px solid #7c3aed;
+  background: white;
+  color: #7c3aed;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.action-btn:hover {
+  background: #7c3aed;
+  color: white;
+}
+
+.action-btn.danger {
+  border-color: #f44336;
+  color: #f44336;
+}
+
+.action-btn.danger:hover {
+  background: #f44336;
+  color: white;
+}
+
+/* Stats Bar */
+.stats-bar {
+  display: flex;
+  gap: 30px;
+  background: white;
+  padding: 20px 30px;
+  border-radius: 12px;
+  margin-bottom: 25px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.stat-label {
+  color: #666;
+  font-weight: 500;
+}
+
+.stat-value {
+  color: #7c3aed;
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+/* Data Table */
+.data-table {
+  width: 100%;
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  margin-bottom: 20px;
+}
+
+.data-table th {
+  background: #7c3aed;
+  color: white;
+  padding: 15px;
+  text-align: left;
+  font-weight: 600;
+}
+
+.data-table td {
+  padding: 15px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.data-table tr:hover {
+  background: #f5f3ff;
+}
+
+.data-table input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+/* Attendance Section */
+.attendance-section {
+  margin-top: 30px;
+}
+
+/* Status Message */
+.status-message {
+  margin-top: 20px;
+  padding: 15px 20px;
+  background: #e3f2fd;
+  color: #1976d2;
+  border-radius: 8px;
+  font-weight: 500;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .module-header {
+    padding: 20px 25px;
+  }
+  
+  .header-content h1 {
+    font-size: 1.6rem;
+  }
+  
+  .module-main {
+    padding: 25px 20px;
+  }
+  
+  .action-bar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .search-box input {
+    min-width: 100%;
+  }
+  
+  .content-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .form-row {
+    flex-direction: column;
+  }
+  
+  .stats-bar {
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .button-group {
+    flex-direction: column;
+  }
+}
+
+/* ============================================================
+   ATTENDANCE MANAGEMENT SPECIFIC STYLES
+============================================================ */
+
+.attendance-controls {
+  background: white;
+  border-radius: 15px;
+  padding: 30px;
+  margin-bottom: 30px;
+  box-shadow: 0 4px 15px rgba(124, 58, 237, 0.1);
+}
+
+/* Locked Date Input */
+.date-locked {
+  background: #f3f4f6 !important;
+  cursor: not-allowed !important;
+  border: 2px solid #d1d5db !important;
+  color: #6b7280 !important;
+  font-weight: 600;
+}
+
+.date-locked:disabled {
+  opacity: 0.7;
+}
+
+/* Fee Status Legend */
+.fee-legend {
+  margin-top: 25px;
+  padding: 20px;
+  background: linear-gradient(135deg, rgba(124, 58, 237, 0.05) 0%, rgba(221, 214, 254, 0.05) 100%);
+  border-radius: 12px;
+  border: 2px solid rgba(124, 58, 237, 0.1);
+}
+
+.legend-title {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.legend-items {
+  display: flex;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #555;
+}
+
+.legend-dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: inline-block;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Attendance Grid Layout */
+.attendance-grid-container {
+  margin: 25px 0;
+  background: white;
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.attendance-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 15px;
+  max-width: 100%;
+}
+
+/* Individual Attendance Item (Checkbox + Roll Number) */
+.attendance-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  background: #f9fafb;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.attendance-item:hover {
+  background: #f3f4f6;
+  border-color: #7c3aed;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.15);
+}
+
+.attendance-item input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  accent-color: #7c3aed;
+  flex-shrink: 0;
+}
+
+.attendance-item input[type="checkbox"]:checked ~ .roll-number-grid {
+  font-weight: 800;
+}
+
+/* Roll Number in Grid */
+.roll-number-grid {
+  font-weight: 700;
+  font-size: 0.95rem;
+  font-family: 'Courier New', monospace;
+  letter-spacing: 0.3px;
+  transition: all 0.3s ease;
+}
+
+/* Checked state background */
+.attendance-item:has(input:checked) {
+  background: rgba(124, 58, 237, 0.08);
+  border-color: #7c3aed;
+}
+
+/* Stats Bar Enhanced */
+.stats-bar .stat-value.present {
+  color: #22c55e;
+}
+
+.stats-bar .stat-value.absent {
+  color: #ef4444;
+}
+
+.stats-bar .stat-value.percentage {
+  color: #7c3aed;
+  font-size: 1.8rem;
+}
+
+/* Save Section */
+.save-section {
+  text-align: center;
+  margin-top: 30px;
+  padding: 20px;
+  background: linear-gradient(135deg, rgba(124, 58, 237, 0.05) 0%, rgba(221, 214, 254, 0.05) 100%);
+  border-radius: 12px;
+}
+
+/* Empty State */
+.empty-state {
+  text-align: center;
+  padding: 80px 20px;
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.empty-icon {
+  font-size: 5rem;
+  margin-bottom: 20px;
+  opacity: 0.6;
+}
+
+.empty-state h3 {
+  font-size: 1.8rem;
+  color: #374151;
+  margin-bottom: 12px;
+  font-weight: 700;
+}
+
+.empty-state p {
+  font-size: 1.1rem;
+  color: #6b7280;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+/* Responsive Design for Attendance */
+@media (max-width: 768px) {
+  .attendance-controls {
+    padding: 20px;
+  }
+  
+  .legend-items {
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .attendance-grid-container {
+    padding: 20px;
+  }
+  
+  .attendance-grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 12px;
+  }
+  
+  .attendance-item {
+    padding: 10px 12px;
+  }
+  
+  .roll-number-grid {
+    font-size: 0.85rem;
+  }
+}

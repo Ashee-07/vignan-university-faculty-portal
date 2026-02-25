@@ -1,0 +1,541 @@
+/* ============================================================
+   VIGNAN FACULTY DASHBOARD - SIDEBAR & BENTO GRID OVERHAUL
+   Structure: Sidebar (Left) + Main Content (Right)
+============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --sidebar-width: 280px;
+  --primary-color: #b8235a;
+  --primary-dark: #88143c;
+  --accent-color: #3b82f6;
+  --bg-color: #f1f5f9;
+  --text-dark: #1e293b;
+  --text-light: #94a3b8;
+  --sidebar-bg: #0f172a;
+  --card-bg: #ffffff;
+}
+
+/* ============================================================
+   MAIN LAYOUT & CONTAINER
+============================================================ */
+.faculty-dashboard-container {
+  padding: 3rem 4rem;
+  animation: fadeUp 0.8s ease-out;
+}
+
+.dashboard-main-content {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Intro Section */
+.intro-section {
+  margin-bottom: 3rem;
+  animation: fadeInDown 0.8s ease-out;
+}
+
+.intro-section h2 {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: var(--text-dark);
+  margin-bottom: 0.5rem;
+}
+
+.intro-section p {
+  font-size: 1.1rem;
+  color: #64748b;
+}
+
+/* ============================================================
+   ANNOUNCEMENTS
+============================================================ */
+.announcements-banner {
+  height: 250px;
+  border-radius: 24px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  margin-bottom: 3rem;
+  background: #000;
+  animation: zoomIn 0.8s ease-out;
+  border: 4px solid white;
+}
+
+.announcement-wrapper {
+  position: relative;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.announcement-image-container {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.announcement-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.5;
+  transition: transform 12s ease;
+}
+
+.announcements-banner:hover .announcement-image {
+  transform: scale(1.1);
+}
+
+.announcement-content {
+  position: relative;
+  z-index: 10;
+  padding: 0 4rem;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  width: 100%;
+  color: white;
+}
+
+.announcement-icon {
+  font-size: 3.5rem;
+  background: rgba(255, 255, 255, 0.1);
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+.announcement-text {
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
+  line-height: 1.4;
+}
+
+.announcement-indicators {
+  position: absolute;
+  bottom: 25px;
+  right: 40px;
+  display: flex;
+  gap: 8px;
+  z-index: 20;
+}
+
+.indicator {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.4);
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.indicator.active {
+  background: white;
+  transform: scale(1.2);
+}
+
+/* ============================================================
+   NEW DATA-RICH DASHBOARD SECTIONS
+ ============================================================ */
+
+/* Metrics Bar */
+.metrics-bar {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
+  animation: fadeUp 0.8s ease-out;
+}
+
+.metric-card {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+  border: 1px solid #f1f5f9;
+  transition: transform 0.3s;
+}
+
+.metric-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(184, 35, 90, 0.08);
+}
+
+.metric-icon {
+  width: 50px;
+  height: 50px;
+  background: linear-gradient(135deg, rgba(184, 35, 90, 0.1), rgba(59, 130, 246, 0.1));
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  color: #b8235a;
+}
+
+.metric-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.metric-label {
+  font-size: 0.75rem;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 600;
+}
+
+.metric-value {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+/* Content Grid */
+.dashboard-content-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  animation: fadeUp 0.8s ease-out 0.2s backwards;
+}
+
+.card-style {
+  background: white;
+  border-radius: 24px;
+  padding: 2rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+  border: 1px solid #f1f5f9;
+  margin-bottom: 2rem;
+}
+
+.dashboard-section h3 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 1.75rem;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.dashboard-section h3 i {
+  color: #b8235a;
+}
+
+/* University Highlights */
+.university-highlights {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.highlight-item {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.h-icon {
+  font-size: 1.2rem;
+  color: #3b82f6;
+  margin-top: 2px;
+}
+
+.h-text strong {
+  display: block;
+  font-size: 0.95rem;
+  color: #334155;
+}
+
+.h-text p {
+  font-size: 0.85rem;
+  color: #64748b;
+}
+
+/* Dept Stats */
+.dept-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.stat-box {
+  background: #f8fafc;
+  padding: 1rem;
+  border-radius: 16px;
+  text-align: center;
+  border: 1px solid #f1f5f9;
+}
+
+.stat-num {
+  display: block;
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #b8235a;
+}
+
+.stat-label {
+  font-size: 0.7rem;
+  color: #64748b;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.dept-mission {
+  font-size: 0.9rem;
+  color: #475569;
+  line-height: 1.6;
+  font-style: italic;
+  padding-left: 1rem;
+  border-left: 3px solid #e2e8f0;
+}
+
+/* Achievements Timeline */
+.achievements-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  position: relative;
+}
+
+.achievements-timeline::before {
+  content: '';
+  position: absolute;
+  left: 35px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: #f1f5f9;
+}
+
+.achievement-event {
+  display: flex;
+  gap: 2rem;
+  position: relative;
+  z-index: 1;
+}
+
+.event-date {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: white;
+  background: #334155;
+  padding: 4px 10px;
+  border-radius: 8px;
+  min-width: 75px;
+  text-align: center;
+  height: fit-content;
+}
+
+.event-info strong {
+  display: block;
+  font-size: 1rem;
+  color: #1e293b;
+  margin-bottom: 0.25rem;
+}
+
+.event-info p {
+  font-size: 0.85rem;
+  color: #64748b;
+}
+
+/* Research Portfolio */
+.portfolio-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+}
+
+.tag {
+  background: #eff6ff;
+  color: #3b82f6;
+  padding: 6px 14px;
+  border-radius: 100px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  border: 1px solid #dbeafe;
+}
+
+.quick-actions-bar {
+  display: flex;
+  gap: 1rem;
+}
+
+.minimal-btn {
+  flex: 1;
+  padding: 0.75rem;
+  border: 1px solid #e2e8f0;
+  background: white;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #475569;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.minimal-btn:hover {
+  background: #f8fafc;
+  border-color: #b8235a;
+  color: #b8235a;
+}
+
+/* Animations */
+.module-card {
+  opacity: 0;
+  animation: fadeUp 0.6s forwards;
+}
+
+.module-card:nth-child(n) {
+  animation-delay: calc(0.05s * var(--i, 1));
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes zoomIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .faculty-dashboard {
+    flex-direction: column;
+  }
+
+  .dashboard-header {
+    width: 100%;
+    height: auto;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 1rem;
+    position: relative;
+  }
+
+  .header-left {
+    width: auto;
+    margin: 0;
+    padding: 0;
+    border: none;
+    flex-direction: row;
+    gap: 1rem;
+  }
+
+  .header-logo {
+    height: 50px;
+    margin: 0;
+  }
+
+  .dashboard-header h1 {
+    display: none;
+  }
+
+  .sidebar-menu {
+    display: none;
+    /* Hide on mobile for now */
+  }
+
+  .header-right {
+    width: auto;
+    flex-direction: row;
+    margin: 0;
+  }
+
+  .welcome-text {
+    display: none;
+  }
+
+  .logout-btn span {
+    display: none;
+  }
+
+  .logout-btn {
+    width: auto;
+    padding: 0.8rem;
+  }
+
+  .dashboard-main {
+    padding: 1.5rem;
+  }
+
+  .metrics-bar {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .dashboard-content-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .modules-grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,55 @@
+/* Reuse Sidebar.css variables and structure */
+@import './Sidebar.css';
+
+.admin-sidebar {
+    background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
+    border-right: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.admin-badge {
+    color: #4cc9f0 !important;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.welcome-text {
+    font-size: 0.75rem;
+    color: #4cc9f0;
+    opacity: 0.8;
+}
+
+.admin-sidebar .nav-item.active {
+    background: linear-gradient(90deg, rgba(76, 201, 240, 0.15) 0%, transparent 100%);
+    color: #4cc9f0;
+}
+
+.admin-sidebar .nav-item.active::before {
+    background: #4cc9f0;
+}
+
+.admin-sidebar .nav-item:hover {
+    color: #4cc9f0;
+}
+
+.admin-sidebar .user-name {
+    color: #4cc9f0;
+    /* Changed from #cbd5e1 to #4cc9f0 */
+}
+
+.nav-item {
+    color: #4cc9f0;
+    /* Changed from #cbd5e1 to #4cc9f0 */
+    transition: all 0.3s ease;
+}
+
+.nav-item:hover {
+    background: rgba(76, 201, 240, 0.1);
+    color: #4cc9f0;
+}
+
+.admin-sidebar .logout-button:hover {
+    background: rgba(255, 76, 76, 0.2);
+    color: #ff4c4c;
+}

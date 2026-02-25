@@ -1,0 +1,29 @@
+.faculty-portal-layout {
+    display: flex;
+    flex-direction: row;
+    min-height: 100vh;
+    width: 100vw;
+    background-color: #f1f5f9;
+    overflow: hidden;
+}
+
+.portal-content {
+    flex: 1;
+    height: 100vh;
+    overflow-y: auto;
+    background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
+    background-size: 24px 24px;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+/* Ensure child pages fill the space correctly */
+.portal-content>* {
+    min-height: 100%;
+}
+
+@media (max-width: 768px) {
+    .portal-content {
+        padding-left: 0;
+    }
+}

@@ -1,0 +1,233 @@
+.feedback-container {
+    animation: fadeIn 0.8s ease-out;
+}
+
+.feedback-header {
+    margin-bottom: 2rem;
+}
+
+.feedback-header h2 {
+    font-size: 1.8rem;
+    color: #1e293b;
+    margin-bottom: 5px;
+}
+
+.feedback-header p {
+    color: #64748b;
+}
+
+.feedback-content {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 2rem;
+}
+
+.faculty-selector-card,
+.feedback-form-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 24px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+}
+
+.faculty-selector-card h3,
+.feedback-form-card h3 {
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+    color: #0f172a;
+}
+
+/* Faculty List */
+.faculty-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.faculty-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 1rem;
+    background: #f8fafc;
+    border-radius: 16px;
+    cursor: pointer;
+    transition: all 0.3s;
+    border: 2px solid transparent;
+    position: relative;
+}
+
+.faculty-item:hover {
+    background: #f1f5f9;
+    transform: translateX(5px);
+}
+
+.faculty-item.selected {
+    background: rgba(0, 242, 254, 0.05);
+    border-color: #00f2fe;
+}
+
+.faculty-avatar {
+    width: 45px;
+    height: 45px;
+    background: #e2e8f0;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #64748b;
+    font-size: 1.2rem;
+}
+
+.faculty-item.selected .faculty-avatar {
+    background: #00f2fe;
+    color: #0f172a;
+}
+
+.faculty-details h4 {
+    font-size: 0.95rem;
+    margin-bottom: 2px;
+    color: #1e293b;
+}
+
+.faculty-details span {
+    font-size: 0.8rem;
+    color: #64748b;
+}
+
+.check-icon {
+    position: absolute;
+    right: 15px;
+    color: #00f2fe;
+    font-size: 1.1rem;
+}
+
+/* Feedback Form */
+.rating-selector {
+    margin-bottom: 1.5rem;
+}
+
+.rating-selector label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: #1e293b;
+}
+
+.stars {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.stars i {
+    font-size: 1.5rem;
+    color: #fbbf24;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.stars i:hover {
+    transform: scale(1.2);
+}
+
+.rating-text {
+    margin-left: 10px;
+    font-weight: 700;
+    color: #64748b;
+}
+
+.comment-box label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: #1e293b;
+}
+
+.comment-box textarea {
+    width: 100%;
+    padding: 1rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    font-family: inherit;
+    resize: none;
+    transition: border-color 0.3s;
+    box-sizing: border-box;
+}
+
+.comment-box textarea:focus {
+    outline: none;
+    border-color: #00f2fe;
+}
+
+.submit-feedback-btn {
+    width: 100%;
+    margin-top: 1.5rem;
+    padding: 1rem;
+    background: linear-gradient(135deg, #00f2fe, #4facfe);
+    border: none;
+    border-radius: 12px;
+    color: #0f172a;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.submit-feedback-btn:hover {
+    filter: brightness(1.1);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(0, 242, 254, 0.2);
+}
+
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: #94a3b8;
+    text-align: center;
+}
+
+.empty-state i {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    opacity: 0.3;
+}
+
+.feedback-message {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    border-radius: 12px;
+    text-align: center;
+    font-weight: 600;
+}
+
+.feedback-message.success {
+    background: rgba(16, 185, 129, 0.1);
+    color: #10b981;
+}
+
+.feedback-message.error {
+    background: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 900px) {
+    .feedback-content {
+        grid-template-columns: 1fr;
+    }
+}

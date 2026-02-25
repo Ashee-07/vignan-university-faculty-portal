@@ -1,0 +1,303 @@
+/* ============================================================
+   STUDENT PROGRESS - PREMIUM DESIGN SYSTEM
+ ============================================================ */
+
+.progress-container {
+    padding: 3rem 4rem;
+    animation: fadeUp 0.8s ease-out;
+}
+
+.progress-main-content {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* Header Section */
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 3rem;
+}
+
+.header-info h2 {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: #1e293b;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.header-info h2 i {
+    color: #b8235a;
+    font-size: 1.8rem;
+}
+
+.header-info p {
+    font-size: 1.1rem;
+    color: #64748b;
+}
+
+/* Stats Bento Grid */
+.progress-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+}
+
+.stat-card-premium {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 24px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
+    border: 1px solid #f1f5f9;
+    text-align: center;
+    transition: transform 0.3s;
+}
+
+.stat-card-premium:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.05);
+}
+
+.stat-card-premium .stat-label {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #64748b;
+    margin-bottom: 0.5rem;
+}
+
+.stat-card-premium .stat-value {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: #1e293b;
+}
+
+/* Action Bar */
+.progress-action-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2.5rem;
+    background: white;
+    padding: 1.5rem 2rem;
+    border-radius: 24px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+    border: 1px solid #f1f5f9;
+}
+
+.course-selector {
+    width: 350px;
+}
+
+.premium-select {
+    width: 100%;
+    padding: 0.85rem 1.25rem;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    background: #f8fafc;
+    font-weight: 600;
+    color: #1e293b;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.premium-select:focus {
+    outline: none;
+    border-color: #b8235a;
+    box-shadow: 0 0 0 4px rgba(184, 35, 90, 0.1);
+}
+
+.progress-search {
+    position: relative;
+    width: 400px;
+}
+
+.progress-search i {
+    position: absolute;
+    left: 1.25rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #94a3b8;
+}
+
+.progress-search input {
+    width: 100%;
+    padding: 0.85rem 1rem 0.85rem 3rem;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    background: #f8fafc;
+    font-size: 0.95rem;
+    transition: all 0.3s;
+}
+
+/* Data Table Premium */
+.table-container-premium {
+    background: white;
+    border-radius: 24px;
+    padding: 1rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
+    border: 1px solid #f1f5f9;
+    overflow: hidden;
+}
+
+.premium-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 8px;
+}
+
+.premium-table th {
+    padding: 1.25rem 1.5rem;
+    text-align: left;
+    font-size: 0.85rem;
+    font-weight: 800;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.premium-table tr {
+    transition: transform 0.2s;
+}
+
+.premium-table tbody tr:hover {
+    transform: scale(1.002);
+    background: #f8fafc;
+}
+
+.premium-table td {
+    padding: 1.25rem 1.5rem;
+    background: white;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.student-id {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    color: #b8235a;
+}
+
+.student-name {
+    font-weight: 700;
+    color: #1e293b;
+}
+
+.percentage-chip {
+    padding: 6px 12px;
+    border-radius: 100px;
+    font-weight: 800;
+    font-size: 0.85rem;
+}
+
+.percentage-chip.high {
+    background: #f0fdf4;
+    color: #22c55e;
+}
+
+.percentage-chip.mid {
+    background: #eff6ff;
+    color: #3b82f6;
+}
+
+.percentage-chip.low {
+    background: #fffcf0;
+    color: #eab308;
+}
+
+.percentage-chip.critical {
+    background: #fff1f2;
+    color: #ef4444;
+}
+
+.assignments-pill {
+    background: #f1f5f9;
+    color: #475569;
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+.overall-score {
+    font-size: 1.1rem;
+    font-weight: 800;
+}
+
+.overall-score.a {
+    color: #22c55e;
+}
+
+.overall-score.b {
+    color: #3b82f6;
+}
+
+.overall-score.c {
+    color: #f97316;
+}
+
+.overall-score.f {
+    color: #ef4444;
+}
+
+.view-btn-premium {
+    background: transparent;
+    border: 1px solid #e2e8f0;
+    padding: 0.6rem 1.2rem;
+    border-radius: 10px;
+    font-weight: 700;
+    color: #475569;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.view-btn-premium:hover {
+    background: #b8235a;
+    color: white;
+    border-color: #b8235a;
+}
+
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 1200px) {
+    .progress-stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .progress-container {
+        padding: 2rem;
+    }
+
+    .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1.5rem;
+    }
+
+    .progress-action-bar {
+        flex-direction: column;
+        gap: 1.5rem;
+        align-items: stretch;
+    }
+
+    .course-selector,
+    .progress-search {
+        width: 100%;
+    }
+}

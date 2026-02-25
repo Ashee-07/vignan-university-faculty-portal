@@ -1,0 +1,222 @@
+/* ============================================================
+   REPORTS & ANALYTICS - PREMIUM DESIGN SYSTEM
+ ============================================================ */
+
+.reports-container {
+    padding: 3rem 4rem;
+    animation: fadeUp 0.8s ease-out;
+}
+
+.reports-main-content {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* Header Section */
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 3rem;
+}
+
+.header-info h2 {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: #1e293b;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.header-info h2 i {
+    color: #b8235a;
+    font-size: 1.8rem;
+}
+
+.header-info p {
+    font-size: 1.1rem;
+    color: #64748b;
+}
+
+/* Course Selector Bar */
+.reports-selection-bar {
+    background: white;
+    padding: 1.5rem 2rem;
+    border-radius: 24px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+    border: 1px solid #f1f5f9;
+    margin-bottom: 3rem;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.course-select-group {
+    flex: 1;
+    max-width: 400px;
+}
+
+.course-select-group label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #475569;
+    margin-bottom: 0.5rem;
+}
+
+.premium-select-p {
+    width: 100%;
+    padding: 0.85rem 1.25rem;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    background: #f8fafc;
+    font-weight: 600;
+    color: #1e293b;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+/* Reports Bento Grid */
+.reports-bento-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 2rem;
+    margin-bottom: 4rem;
+}
+
+.report-premium-card {
+    background: white;
+    border-radius: 24px;
+    padding: 2.5rem 2rem;
+    border: 1px solid #f1f5f9;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
+    text-align: center;
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.report-premium-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+    border-color: #b8235a;
+}
+
+.report-icon-wrapper {
+    width: 80px;
+    height: 80px;
+    background: #fff1f2;
+    border-radius: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    color: #b8235a;
+    transition: all 0.3s;
+}
+
+.report-premium-card:hover .report-icon-wrapper {
+    background: #b8235a;
+    color: white;
+    transform: rotate(5deg);
+}
+
+.report-card-info h3 {
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: #1e293b;
+    margin-bottom: 0.5rem;
+}
+
+.report-card-info p {
+    font-size: 0.95rem;
+    color: #64748b;
+    line-height: 1.5;
+}
+
+.btn-generate-p {
+    width: 100%;
+    padding: 1rem;
+    border-radius: 12px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    font-weight: 700;
+    color: #475569;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.report-premium-card:hover .btn-generate-p {
+    background: #b8235a;
+    color: white;
+    border: none;
+}
+
+/* Footer Action */
+.reports-footer {
+    display: flex;
+    justify-content: center;
+}
+
+.btn-download-all-p {
+    padding: 1.25rem 3rem;
+    border-radius: 20px;
+    background: #1e293b;
+    color: white;
+    font-weight: 800;
+    font-size: 1.1rem;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    transition: all 0.3s;
+    box-shadow: 0 10px 25px rgba(30, 41, 59, 0.2);
+}
+
+.btn-download-all-p:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(30, 41, 59, 0.3);
+    background: #000;
+}
+
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 768px) {
+    .reports-container {
+        padding: 2rem;
+    }
+
+    .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1.5rem;
+    }
+
+    .reports-selection-bar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .course-select-group {
+        max-width: none;
+    }
+}
