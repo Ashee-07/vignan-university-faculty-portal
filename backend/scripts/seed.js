@@ -6,7 +6,7 @@ const Timetable = require('../models/Timetable');
 const Admin = require('../models/Admin');
 const Grade = require('../models/Grade');
 
-dotenv.config({ path: './backend/.env' });
+dotenv.config(); 
 
 // --- Configuration ---
 const DEPARTMENTS = ['IT']; // Focusing on IT as per request

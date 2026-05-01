@@ -15,9 +15,8 @@ const AttendanceSchema = new mongoose.Schema({
 });
 
 // Compound unique index to prevent duplicate attendance for same class/date/period
+// This ensures that only one attendance record can exist for a specific Year+Section+Date+Period
 AttendanceSchema.index({
-    facultyId: 1,
-    subject: 1,
     year: 1,
     section: 1,
     date: 1,

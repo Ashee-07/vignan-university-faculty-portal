@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import facultyService from "../../services/facultyService";
 import "./FacultySettings.css";
 
 export default function FacultySettings() {
@@ -7,13 +8,16 @@ export default function FacultySettings() {
     const facultyName = localStorage.getItem("facultyName") || "Faculty Member";
 
     const [formData, setFormData] = useState({
-        email: "faculty@vignan.ac.in",
-        phone: "+91 9876543210",
+        email: localStorage.getItem("facultyEmail") || "faculty@vignan.ac.in",
+        phone: localStorage.getItem("facultyPhone") || "+91 9876543210",
         notifications: true,
         theme: "light",
         newPassword: "",
         confirmPassword: ""
     });
+
+    const [showPassword, setShowPassword] = useState(false);
+    const [isSaving, setIsSaving] = useState(false);
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
@@ -23,8 +27,31 @@ export default function FacultySettings() {
         }));
     };
 
-    const handleSave = () => {
-        alert("Settings saved successfully!");
+    const handleSave = async () => {
+        if (formData.newPassword) {
+            if (formData.newPassword !== formData.confirmPassword) {
+                alert("Passwords do not match!");
+                return;
+            }
+
+            try {
+                setIsSaving(true);
+                const facultyOid = localStorage.getItem("facultyOid");
+                if (!facultyOid) throw new Error("Faculty session expired. Please login again.");
+
+                // Use the general update route to change password
+                await facultyService.updateFaculty(facultyOid, { password: formData.newPassword });
+                
+                alert("Password updated successfully!");
+                setFormData(prev => ({ ...prev, newPassword: "", confirmPassword: "" }));
+            } catch (err) {
+                alert("Failed to update password: " + err.message);
+            } finally {
+                setIsSaving(false);
+            }
+        } else {
+            alert("Settings saved (no password changes).");
+        }
     };
 
     const handleLogout = () => {
@@ -89,32 +116,40 @@ export default function FacultySettings() {
                         {/* Security */}
                         <section className="settings-section">
                             <h3><i className="fas fa-lock"></i> Security</h3>
-                            <div className="input-group">
+                            <div className="input-group password-group">
                                 <label>New Password</label>
-                                <input
-                                    type="password"
-                                    name="newPassword"
-                                    value={formData.newPassword}
-                                    onChange={handleChange}
-                                    placeholder="Leave empty to keep current"
-                                />
+                                <div className="password-input-wrapper">
+                                    <input
+                                        type={showPassword ? "text" : "password"}
+                                        name="newPassword"
+                                        value={formData.newPassword}
+                                        onChange={handleChange}
+                                        placeholder="Leave empty to keep current"
+                                    />
+                                    <i 
+                                        className={`fas ${showPassword ? 'fa-eye-slash' : 'fa-eye'} toggle-password`}
+                                        onClick={() => setShowPassword(!showPassword)}
+                                    ></i>
+                                </div>
                             </div>
-                            <div className="input-group">
+                            <div className="input-group password-group">
                                 <label>Confirm Password</label>
-                                <input
-                                    type="password"
-                                    name="confirmPassword"
-                                    value={formData.confirmPassword}
-                                    onChange={handleChange}
-                                    placeholder="Re-enter new password"
-                                />
+                                <div className="password-input-wrapper">
+                                    <input
+                                        type={showPassword ? "text" : "password"}
+                                        name="confirmPassword"
+                                        value={formData.confirmPassword}
+                                        onChange={handleChange}
+                                        placeholder="Re-enter new password"
+                                    />
+                                </div>
                             </div>
                         </section>
                     </div>
 
                     <div className="settings-actions">
-                        <button className="save-btn" onClick={handleSave}>
-                            Save Changes
+                        <button className="save-btn" onClick={handleSave} disabled={isSaving}>
+                            {isSaving ? "Saving..." : "Save Changes"}
                         </button>
                     </div>
                 </div>

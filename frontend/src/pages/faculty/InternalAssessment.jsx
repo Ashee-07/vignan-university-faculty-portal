@@ -75,7 +75,7 @@ export default function InternalAssessment() {
     if (window.confirm('Are you sure you want to delete this assessment?')) {
       try {
         await assessmentService.deleteAssessment(id);
-        setAssessments(assessments.filter(a => a.id !== id));
+        setAssessments(assessments.filter(a => a._id !== id));
       } catch (err) {
         alert('Delete failed: ' + err.message);
       }
@@ -197,7 +197,7 @@ export default function InternalAssessment() {
 
         <div className="assessment-bento-grid">
           {filteredAssessments.map((assessment, idx) => (
-            <div key={assessment.id} className="assessment-premium-card" style={{ '--i': idx }}>
+            <div key={assessment._id} className="assessment-premium-card" style={{ '--i': idx }}>
               <span className={`card-type-tag type-${assessment.type.toLowerCase()}`}>
                 {assessment.type}
               </span>
@@ -217,7 +217,7 @@ export default function InternalAssessment() {
                 <button className="btn-assessment-p primary"><i className="fas fa-pen-nib"></i> Enter Marks</button>
                 <button className="btn-assessment-p"><i className="fas fa-chart-bar"></i> Stats</button>
                 <button className="btn-assessment-p"><i className="fas fa-edit"></i> Edit</button>
-                <button className="btn-assessment-p danger" onClick={() => handleDelete(assessment.id)}>
+                <button className="btn-assessment-p danger" onClick={() => handleDelete(assessment._id)}>
                   <i className="fas fa-trash-alt"></i>
                 </button>
               </div>

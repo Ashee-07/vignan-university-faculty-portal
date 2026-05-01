@@ -15,6 +15,7 @@ export default function StudentLayout({ children }) {
         { name: 'Attendance', path: '/student/attendance', icon: 'fas fa-user-check' },
         { name: 'Grades & Results', path: '/student/grades', icon: 'fas fa-graduation-cap' },
         { name: 'Assignments', path: '/student/assignments', icon: 'fas fa-tasks' },
+        { name: 'Assessments', path: '/student/assessments', icon: 'fas fa-clipboard-check' },
         { name: 'Course Materials', path: '/student/course-materials', icon: 'fas fa-book-reader' },
         { name: 'Feedback', path: '/student/feedback', icon: 'fas fa-comment-dots' },
     ];

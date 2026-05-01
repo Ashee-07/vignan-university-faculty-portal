@@ -19,6 +19,7 @@ export default function LeaveManagement() {
   });
 
   const facultyId = localStorage.getItem('facultyId') || 'FAC001';
+  const facultyName = localStorage.getItem('facultyName') || 'Faculty Member';
 
   // Load initial data
   useEffect(() => {
@@ -51,7 +52,8 @@ export default function LeaveManagement() {
         const created = await leaveService.applyLeave({
           ...newLeave,
           days,
-          facultyId
+          facultyId,
+          facultyName
         });
 
         setLeaveRequests([created, ...leaveRequests]);
@@ -167,7 +169,7 @@ export default function LeaveManagement() {
         <div className="leave-timeline">
           <h3 style={{ marginBottom: '1.5rem', color: '#1e293b' }}>Recent Applications</h3>
           {leaveRequests.map((leave, idx) => (
-            <div key={leave.id} className="leave-request-card" style={{ '--i': idx }}>
+            <div key={leave._id} className="leave-request-card" style={{ '--i': idx }}>
               <div className="request-main-info">
                 <div className={`leave-type-badge type-${leave.type.toLowerCase().split(' ')[0]}`}>
                   {leave.type}

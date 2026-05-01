@@ -60,7 +60,12 @@ export default function Assignments() {
           subject: newAssignment.course,
           facultyId: localStorage.getItem('facultyId'),
           year: new Date().getFullYear().toString(),
-          deadline: newAssignment.dueDate // Map dueDate to deadline
+          deadline: newAssignment.dueDate,
+          targetYear: newAssignment.targetYear.includes('st') ? newAssignment.targetYear : 
+                     newAssignment.targetYear === '1' ? '1st' :
+                     newAssignment.targetYear === '2' ? '2nd' :
+                     newAssignment.targetYear === '3' ? '3rd' :
+                     newAssignment.targetYear === '4' ? '4th' : newAssignment.targetYear + 'rd'
         };
         const created = await assignmentService.createAssignment(payload);
         setAssignments([created, ...assignments]);
@@ -195,12 +200,12 @@ export default function Assignments() {
                   <option value="">Select Course</option>
                   {facultySubjects.length > 0 ? (
                     facultySubjects.map((sub, idx) => (
-                      <option key={idx} value={sub.subject} data-year={sub.year}>{sub.subject} - {sub.year} Year</option>
+                      <option key={idx} value={sub.subject} data-year={sub.year.toString().includes('st') ? sub.year : (sub.year == 1 ? '1st' : sub.year == 2 ? '2nd' : sub.year == 3 ? '3rd' : '4th')}>{sub.subject} - {sub.year} Year</option>
                     ))
                   ) : (
                     <>
-                      <option value="Advanced Java" data-year="3">Advanced Java - 3rd Year (Fallback)</option>
-                      <option value="Web Technologies" data-year="3">Web Technologies - 3rd Year (Fallback)</option>
+                      <option value="Advanced Java" data-year="3rd">Advanced Java - 3rd Year (Fallback)</option>
+                      <option value="Web Technologies" data-year="3rd">Web Technologies - 3rd Year (Fallback)</option>
                     </>
                   )}
                 </select>

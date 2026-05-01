@@ -24,10 +24,7 @@ const AdminSidebar = () => {
         { id: 'students', path: '/admin/students', icon: 'fas fa-user-graduate', label: 'Manage Students' },
         { id: 'timetable', path: '/admin/timetable', icon: 'fas fa-calendar-alt', label: 'University Timetable' },
         { id: 'announcements', path: '/admin/announcements', icon: 'fas fa-bullhorn', label: 'Broadcasts' },
-        { id: 'messages', path: '/admin/messages', icon: 'fas fa-envelope', label: 'System Messages' },
         { id: 'leave', path: '/admin/leave', icon: 'fas fa-calendar-check', label: 'Leave Approvals' },
-        { id: 'approvals', path: '/admin/approvals', icon: 'fas fa-file-signature', label: 'Dean Authorization' },
-        { id: 'notifications', path: '/admin/notifications', icon: 'fas fa-broadcast-tower', label: 'Notification Center' },
         { id: 'reports', path: '/admin/reports', icon: 'fas fa-file-invoice', label: 'Admin Reports' },
         { id: 'settings', path: '/admin/settings', icon: 'fas fa-user-cog', label: 'System Settings' },
     ];

@@ -7,6 +7,7 @@ export default function Reports() {
   const navigate = useNavigate();
   const [courses, setCourses] = useState([]);
   const [selectedCourse, setSelectedCourse] = useState("");
+  const [selectedYear, setSelectedYear] = useState("3rd");
   const [isLoading, setIsLoading] = useState(true);
   const [isGenerating, setIsGenerating] = useState(false);
 
@@ -17,7 +18,10 @@ export default function Reports() {
         setIsLoading(true);
         const data = await reportService.getReportCourses();
         setCourses(data);
-        if (data.length > 0) setSelectedCourse(data[0].id);
+        if (data.length > 0) {
+          setSelectedCourse(data[0].name);
+          setSelectedYear(data[0].year);
+        }
       } catch (err) {
         console.error("Failed to load courses", err);
       } finally {
@@ -39,7 +43,7 @@ export default function Reports() {
   const handleGenerate = async (reportTitle) => {
     try {
       setIsGenerating(true);
-      const response = await reportService.generateReport(reportTitle, selectedCourse);
+      const response = await reportService.generateReport(reportTitle, selectedCourse, selectedYear);
 
       // In mock mode, we just show an alert
       if (response.mockUrl) {
@@ -92,10 +96,27 @@ export default function Reports() {
             <select
               className="premium-select-p"
               value={selectedCourse}
-              onChange={(e) => setSelectedCourse(e.target.value)}
+              onChange={(e) => {
+                setSelectedCourse(e.target.value);
+                const courseObj = courses.find(c => c.name === e.target.value);
+                if (courseObj) setSelectedYear(courseObj.year);
+              }}
             >
-              {courses.map(course => (
-                <option key={course.id} value={course.id}>{course.id} - {course.name}</option>
+              {courses.map((course, idx) => (
+                <option key={idx} value={course.name}>{course.name}</option>
+              ))}
+            </select>
+          </div>
+          <div className="course-select-group" style={{ marginLeft: '15px' }}>
+            <label>Assigned Year</label>
+            <select
+              className="premium-select-p"
+              value={selectedYear}
+              onChange={(e) => setSelectedYear(e.target.value)}
+            >
+              {/* Only show years assigned to this course */}
+              {courses.filter(c => c.name === selectedCourse).map((course, idx) => (
+                <option key={idx} value={course.year}>{course.year} Year</option>
               ))}
             </select>
           </div>

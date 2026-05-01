@@ -2,63 +2,62 @@ import React, { useState, useEffect } from "react";
 import "./FacultyDashboard.css";
 import { useNavigate } from "react-router-dom";
 import ChangePasswordModal from "../../components/ChangePasswordModal";
+import announcementService from "../../services/announcementService";
 
 export default function FacultyDashboard() {
   const navigate = useNavigate();
   const facultyName = localStorage.getItem("facultyName") || "Faculty Member";
   const facultyId = localStorage.getItem("facultyId");
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
+  const [realAnnouncements, setRealAnnouncements] = useState([]);
+  const [currentAnnouncementIndex, setCurrentAnnouncementIndex] = useState(0);
 
-  // Announcements rotation with images
-  const announcements = [
+  const defaultAnnouncements = [
     {
       id: 1,
-      icon: "📢",
-      text: "Mid-term examinations scheduled from Nov 15-20, 2025",
-      type: "important",
-      image: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=400&h=250&fit=crop" // Exam/Study image
-    },
-    {
-      id: 2,
-      icon: "🎓",
-      text: "Faculty training workshop on digital pedagogy - Nov 25th",
-      type: "info",
-      image: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=400&h=250&fit=crop" // Workshop/Training image
-    },
-    {
-      id: 3,
-      icon: "📚",
-      text: "New course materials available for Winter semester 2025",
-      type: "update",
-      image: "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=400&h=250&fit=crop" // Books/Learning image
-    },
-    {
-      id: 4,
-      icon: "⚠️",
-      text: "Assignment submission deadline extended till Nov 30th",
-      type: "alert",
-      image: "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=400&h=250&fit=crop" // Deadline/Calendar image
-    },
-    {
-      id: 5,
-      icon: "🌟",
-      text: "Congratulations! Information Technology ranked #1 in student feedback",
-      type: "success",
-      image: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=400&h=250&fit=crop" // Success/Achievement image
-    },
+      text: "Welcome to Vignan University Faculty Portal",
+      title: "Notice Board",
+      author: "System",
+      image: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=800&h=400&fit=crop"
+    }
   ];
 
-  const [currentAnnouncementIndex, setCurrentAnnouncementIndex] = useState(0);
+  useEffect(() => {
+    const fetchAnnouncements = async () => {
+      try {
+        const data = await announcementService.getAnnouncements();
+        if (data && data.length > 0) {
+          const formatted = data.map((a, idx) => ({
+            id: a._id || idx,
+            text: a.content,
+            title: a.title,
+            author: a.facultyName,
+            image: idx % 2 === 0 
+              ? "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=800&h=400&fit=crop"
+              : "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=800&h=400&fit=crop"
+          }));
+          setRealAnnouncements(formatted);
+        } else {
+          setRealAnnouncements(defaultAnnouncements);
+        }
+      } catch (err) {
+        setRealAnnouncements(defaultAnnouncements);
+      }
+    };
+    fetchAnnouncements();
+  }, []);
+
+  const displayAnnouncements = realAnnouncements.length > 0 ? realAnnouncements : defaultAnnouncements;
 
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentAnnouncementIndex((prevIndex) =>
-        (prevIndex + 1) % announcements.length
+        (prevIndex + 1) % displayAnnouncements.length
       );
-    }, 3000); // Change every 3 seconds
+    }, 5000); // Change every 5 seconds
 
     return () => clearInterval(interval);
-  }, [announcements.length]);
+  }, [displayAnnouncements.length]);
 
   const handleLogout = () => {
     localStorage.removeItem("userRole");
@@ -85,22 +84,32 @@ export default function FacultyDashboard() {
           <div className="announcement-wrapper">
             <div className="announcement-image-container">
               <img
-                src={announcements[currentAnnouncementIndex].image}
+                src={displayAnnouncements[currentAnnouncementIndex]?.image}
                 alt="Announcement"
                 className="announcement-image"
               />
             </div>
             <div className="announcement-content">
-              <span className="announcement-icon">
-                <i className="fas fa-bullhorn"></i>
-              </span>
-              <span className="announcement-text">
-                {announcements[currentAnnouncementIndex].text}
-              </span>
+              <div className="announcement-main">
+                <span className="announcement-icon">
+                  <i className="fas fa-bullhorn"></i>
+                </span>
+                <div className="announcement-text-group">
+                  <span className="announcement-title">
+                    {displayAnnouncements[currentAnnouncementIndex]?.title || "Latest Update"}
+                  </span>
+                  <span className="announcement-text">
+                    {displayAnnouncements[currentAnnouncementIndex]?.text}
+                  </span>
+                </div>
+              </div>
+              <div className="announcement-author-tag">
+                <i className="fas fa-user-edit"></i> {displayAnnouncements[currentAnnouncementIndex]?.author || "System"}
+              </div>
             </div>
           </div>
           <div className="announcement-indicators">
-            {announcements.map((_, index) => (
+            {displayAnnouncements.map((_, index) => (
               <span
                 key={index}
                 className={`indicator ${index === currentAnnouncementIndex ? 'active' : ''}`}

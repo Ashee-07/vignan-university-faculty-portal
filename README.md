@@ -9,8 +9,7 @@ A professional portal for **VIGNAN UNIVERSITY** with **Faculty, Admin, and Stude
 - **SQL (SQLite via Prisma)**: students, courses, assignments, grades
 
 ## Features (MVP)
-- Animated **logo splash** then a role chooser: **Faculty / Admin / Student**
-- **OTP login** (email/dev mode). JWT-based sessions
+
 - **Faculty**: post attendance (fast bulk or per student), view timetable, request leave, enter assignment grades
 - **Admin (DEO)**: edit timetable, broadcast alerts to all faculty, manage plans
 - **Students**: login with **Register ID**, view **progress & marks**

@@ -25,7 +25,7 @@ export default function ManageLeave() {
     const handleAction = async (id, status) => {
         try {
             await leaveService.updateLeaveStatus(id, status);
-            setLeaves(leaves.map(l => l.id === id ? { ...l, status } : l));
+            setLeaves(leaves.map(l => l._id === id ? { ...l, status } : l));
             alert(`Leave ${status} successfully!`);
         } catch (err) {
             alert("Action failed");
@@ -66,7 +66,7 @@ export default function ManageLeave() {
                         </thead>
                         <tbody>
                             {leaves.map(l => (
-                                <tr key={l.id}>
+                                <tr key={l._id}>
                                     <td>
                                         <div className="faculty-name-cell">
                                             <strong>{l.facultyName}</strong>
@@ -80,8 +80,8 @@ export default function ManageLeave() {
                                     <td>
                                         {l.status === 'Pending' ? (
                                             <div className="action-btns">
-                                                <button className="approve-btn" onClick={() => handleAction(l.id, 'Approved')}>Approve</button>
-                                                <button className="reject-btn" onClick={() => handleAction(l.id, 'Rejected')}>Reject</button>
+                                                <button className="approve-btn" onClick={() => handleAction(l._id, 'Approved')}>Approve</button>
+                                                <button className="reject-btn" onClick={() => handleAction(l._id, 'Rejected')}>Reject</button>
                                             </div>
                                         ) : (
                                             <span className="processed-text"><i className="fas fa-check-circle"></i> Handled</span>

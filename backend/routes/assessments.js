@@ -4,7 +4,10 @@ const Assessment = require('../models/Assessment');
 
 router.get('/', async (req, res) => {
     try {
-        const assessments = await Assessment.find();
+        const { year } = req.query;
+        let query = {};
+        if (year) query.year = year;
+        const assessments = await Assessment.find(query);
         res.json(assessments);
     } catch (err) {
         res.status(500).json({ message: err.message });

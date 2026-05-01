@@ -36,12 +36,10 @@ import AdminAnnouncements from "./pages/admin/AdminAnnouncements.jsx";
 import ManageLeave from "./pages/admin/ManageLeave.jsx";
 import ManageReports from "./pages/admin/ManageReports.jsx";
 import SystemSettings from "./pages/admin/SystemSettings.jsx";
-import SystemMessages from "./pages/admin/SystemMessages.jsx";
-import NotificationManager from "./pages/admin/NotificationManager.jsx";
-import DeanApprovals from "./pages/admin/DeanApprovals.jsx";
 import StudentQuestionPapers from "./pages/student/StudentQuestionPapers.jsx";
 import StudentAssignments from "./pages/student/StudentAssignments.jsx";
 import StudentMaterials from "./pages/student/StudentMaterials.jsx";
+import StudentAssessments from "./pages/student/StudentAssessments.jsx";
 
 const FacultyContainer = () => {
   const userRole = localStorage.getItem("userRole");
@@ -136,12 +134,9 @@ export default function App() {
           <Route path="/admin/students" element={<ManageStudents />} />
           <Route path="/admin/timetable" element={<ManageTimetable />} />
           <Route path="/admin/announcements" element={<AdminAnnouncements />} />
-          <Route path="/admin/messages" element={<SystemMessages />} />
           <Route path="/admin/leave" element={<ManageLeave />} />
           <Route path="/admin/reports" element={<ManageReports />} />
           <Route path="/admin/settings" element={<SystemSettings />} />
-          <Route path="/admin/notifications" element={<NotificationManager />} />
-          <Route path="/admin/approvals" element={<DeanApprovals />} />
         </Route>
 
         {/* Protected Student Routes */}
@@ -153,6 +148,7 @@ export default function App() {
           <Route path="/student/grades" element={<StudentGrades />} />
           <Route path="/student/question-papers" element={<StudentQuestionPapers />} />
           <Route path="/student/assignments" element={<StudentAssignments />} />
+          <Route path="/student/assessments" element={<StudentAssessments />} />
           <Route path="/student/course-materials" element={<StudentMaterials />} />
           <Route path="/student/feedback" element={<FacultyFeedback />} />
         </Route>

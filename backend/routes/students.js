@@ -14,6 +14,7 @@ router.get('/', async (req, res) => {
         const students = await Student.find(filter);
         res.json(students);
     } catch (err) {
+        console.error("Error in GET /api/students:", err);
         res.status(500).json({ message: err.message });
     }
 });

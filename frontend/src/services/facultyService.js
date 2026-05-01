@@ -19,9 +19,9 @@ const facultyService = {
         return res.data;
     },
 
-    // Update faculty assignments
-    updateFacultyAssignments: async (facultyId, assignments) => {
-        const res = await apiClient.put(`/faculty/${facultyId}`, { assignments });
+    // Update faculty details (assignments or password)
+    updateFaculty: async (facultyId, updateData) => {
+        const res = await apiClient.put(`/faculty/${facultyId}`, updateData);
         return res.data;
     },
 

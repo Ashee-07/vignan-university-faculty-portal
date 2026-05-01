@@ -13,7 +13,8 @@ export default function Announcements() {
   const [newAnnouncement, setNewAnnouncement] = useState({
     title: '',
     content: '',
-    priority: 'Medium'
+    priority: 'Medium',
+    targetYear: 'All'
   });
 
   // Load announcements on mount
@@ -36,9 +37,15 @@ export default function Announcements() {
   const handleCreate = async () => {
     if (newAnnouncement.title && newAnnouncement.content) {
       try {
-        const created = await announcementService.postAnnouncement(newAnnouncement);
+        const payload = {
+          ...newAnnouncement,
+          facultyId: localStorage.getItem('facultyId') || 'FAC001',
+          facultyName: localStorage.getItem('facultyName') || 'Faculty Member',
+          date: new Date().toISOString().split('T')[0]
+        };
+        const created = await announcementService.postAnnouncement(payload);
         setAnnouncements([created, ...announcements]);
-        setNewAnnouncement({ title: '', content: '', priority: 'Medium' });
+        setNewAnnouncement({ title: '', content: '', priority: 'Medium', targetYear: 'All' });
         setShowCreateForm(false);
         alert('Announcement posted successfully!');
       } catch (err) {
@@ -53,7 +60,7 @@ export default function Announcements() {
     if (window.confirm('Are you sure you want to delete this announcement?')) {
       try {
         await announcementService.deleteAnnouncement(id);
-        setAnnouncements(announcements.filter(a => a.id !== id));
+        setAnnouncements(announcements.filter(a => a._id !== id));
       } catch (err) {
         alert('Delete failed: ' + err.message);
       }
@@ -115,6 +122,20 @@ export default function Announcements() {
                   <option value="Low">Low Priority</option>
                 </select>
               </div>
+              <div className="form-group">
+                <label>Target Year</label>
+                <select
+                  className="form-select-p"
+                  value={newAnnouncement.targetYear}
+                  onChange={(e) => setNewAnnouncement({ ...newAnnouncement, targetYear: e.target.value })}
+                >
+                  <option value="All">All Years</option>
+                  <option value="1">1st Year</option>
+                  <option value="2">2nd Year</option>
+                  <option value="3">3rd Year</option>
+                  <option value="4">4th Year</option>
+                </select>
+              </div>
             </div>
             <div className="form-group">
               <label>Message Content</label>
@@ -134,12 +155,12 @@ export default function Announcements() {
 
         <div className="announcements-timeline">
           {announcements.map((anniversary, idx) => (
-            <div key={anniversary.id} className="announcement-premium-card" style={{ '--i': idx }}>
-              <div className={`priority-bar priority-${anniversary.priority.toLowerCase()}`}></div>
+            <div key={anniversary._id} className="announcement-premium-card" style={{ '--i': idx }}>
+              <div className={`priority-bar priority-${(anniversary.priority || 'Medium').toLowerCase()}`}></div>
               <div className="announcement-header">
                 <h3>{anniversary.title}</h3>
-                <span className={`priority-tag ${anniversary.priority.toLowerCase()}`}>
-                  {anniversary.priority}
+                <span className={`priority-tag ${(anniversary.priority || 'Medium').toLowerCase()}`}>
+                  {anniversary.priority || 'Medium'}
                 </span>
               </div>
               <div className="announcement-body">
@@ -152,7 +173,7 @@ export default function Announcements() {
                 </div>
                 <div className="announcement-actions">
                   <button className="btn-icon-p"><i className="fas fa-edit"></i></button>
-                  <button className="btn-icon-p danger" onClick={() => handleDelete(anniversary.id)}>
+                  <button className="btn-icon-p danger" onClick={() => handleDelete(anniversary._id)}>
                     <i className="fas fa-trash-alt"></i>
                   </button>
                 </div>
