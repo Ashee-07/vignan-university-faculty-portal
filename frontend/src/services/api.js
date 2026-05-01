@@ -1,7 +1,9 @@
 import axios from 'axios';
 
-// The URL of your running backend server
-const API_BASE_URL = 'http://localhost:5000/api';
+// The URL of your running backend server (Prod vs Dev)
+const API_BASE_URL = window.location.hostname === 'localhost' 
+    ? 'http://localhost:5000/api' 
+    : 'https://vignan-university-faculty-portal.onrender.com/api';
 
 const apiClient = axios.create({
     baseURL: API_BASE_URL
