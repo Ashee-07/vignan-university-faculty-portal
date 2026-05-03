@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './CourseMaterials.css';
 import courseMaterialService from '../../services/courseMaterialService';
+import { BASE_URL } from '../../services/api';
 import API from '../../lib/api';;
 
 export default function CourseMaterials() {
@@ -274,7 +275,7 @@ export default function CourseMaterials() {
                 </div>
               </div>
               <div className="material-actions">
-                <a href={material.url.startsWith('http') ? material.url : `http://localhost:5000${material.url}`} target="_blank" rel="noopener noreferrer" className="action-btn-p" style={{ textDecoration: 'none' }}>
+                <a href={material.url.startsWith('http') ? material.url : `${BASE_URL}${material.url}`} target="_blank" rel="noopener noreferrer" className="action-btn-p" style={{ textDecoration: 'none' }}>
                   <i className="fas fa-download"></i> Get
                 </a>
                 <button className="action-btn-p danger" onClick={() => handleDelete(material._id)}>

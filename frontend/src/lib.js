@@ -1,5 +1,6 @@
+import { BASE_URL } from './services/api';
 
-export const API = (path) => `http://localhost:5000${path}`
+export const API = (path) => `${BASE_URL}${path}`
 export async function api(path, method='GET', body, token) {
   const res = await fetch(API(path), {
     method,

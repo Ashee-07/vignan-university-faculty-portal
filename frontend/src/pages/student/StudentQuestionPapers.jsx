@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './StudentQuestionPapers.css';
-import apiClient from '../../services/api';
+import apiClient, { BASE_URL } from '../../services/api';
 import studentService from '../../services/studentService';
 
 export default function StudentQuestionPapers() {
@@ -37,7 +37,7 @@ export default function StudentQuestionPapers() {
     };
 
     const handleDownload = (paper) => {
-        const fileUrl = paper.url.startsWith('http') ? paper.url : `http://localhost:5000${paper.url}`;
+        const fileUrl = paper.url.startsWith('http') ? paper.url : `${BASE_URL}${paper.url}`;
         window.open(fileUrl, '_blank');
     };
 

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import '../faculty/Assignments.css'; // Reusing faculty CSS for now, will refine if needed
 import assignmentService from '../../services/assignmentService';
 import studentService from '../../services/studentService';
+import { BASE_URL } from '../../services/api';
 
 export default function StudentAssignments() {
     const [assignments, setAssignments] = useState([]);
@@ -37,7 +38,7 @@ export default function StudentAssignments() {
 
     const handleDownload = (assignment) => {
         if (assignment.fileUrl) {
-            const fileUrl = assignment.fileUrl.startsWith('http') ? assignment.fileUrl : `http://localhost:5000${assignment.fileUrl}`;
+            const fileUrl = assignment.fileUrl.startsWith('http') ? assignment.fileUrl : `${BASE_URL}${assignment.fileUrl}`;
             window.open(fileUrl, '_blank');
         } else {
             alert('No file attached to this assignment.');

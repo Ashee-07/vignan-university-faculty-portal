@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./AdminLogin.css";
+import { API } from "../../lib";
 
 export default function AdminLogin() {
   const [adminId, setAdminId] = useState("");
@@ -25,7 +26,7 @@ export default function AdminLogin() {
     }
 
     try {
-      const response = await fetch(`http://localhost:5000/api/admins`);
+      const response = await fetch(API("/api/admins"));
       const allAdmins = await response.json();
 
       const admin = allAdmins.find(a =>

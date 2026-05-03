@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import './QuestionPapers.css';
 import paperService from '../../services/paperService';
 import facultyService from '../../services/facultyService';
+import { BASE_URL } from '../../services/api';
 
 export default function QuestionPapers() {
   const navigate = useNavigate();
@@ -70,7 +71,7 @@ export default function QuestionPapers() {
 
   const handleDownload = (paper) => {
     // Construct full URL if it's a relative path from backend
-    const fileUrl = paper.url.startsWith('http') ? paper.url : `http://localhost:5000${paper.url}`;
+    const fileUrl = paper.url.startsWith('http') ? paper.url : `${BASE_URL}${paper.url}`;
     window.open(fileUrl, '_blank');
   };
 

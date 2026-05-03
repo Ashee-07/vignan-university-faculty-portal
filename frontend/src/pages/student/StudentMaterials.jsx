@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './StudentMaterials.css';
 import courseMaterialService from '../../services/courseMaterialService';
 import studentService from '../../services/studentService';
+import { BASE_URL } from '../../services/api';
 
 export default function StudentMaterials() {
     const [materials, setMaterials] = useState([]);
@@ -112,7 +113,7 @@ export default function StudentMaterials() {
                                 </div>
                                 <div className="material-actions">
                                     <a
-                                        href={material.url.startsWith('http') ? material.url : `http://localhost:5000${material.url}`}
+                                        href={material.url.startsWith('http') ? material.url : `${BASE_URL}${material.url}`}
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         className="action-btn-p"
