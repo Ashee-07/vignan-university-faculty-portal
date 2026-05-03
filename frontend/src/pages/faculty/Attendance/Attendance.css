@@ -482,10 +482,34 @@
     border: 1px solid #fde68a;
 }
 
-.fee-status.none {
-    background: #fee2e2;
-    color: #991b1b;
-    border: 1px solid #fecaca;
+.fee-status.none { background: #fee2e2; color: #ef4444; border: 1px solid #fecaca; }
+
+/* History Table Enhancements */
+.type-badge-inline {
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.type-badge-inline.theory {
+  background: #e0f2fe;
+  color: #0284c7;
+}
+
+.type-badge-inline.lab {
+  background: #f0fdf4;
+  color: #16a34a;
+}
+
+.topic-cell {
+  max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 0.85rem;
+  color: #64748b;
 }
 
 /* Attendance Toggle - FIXED COMPACT BUTTONS */

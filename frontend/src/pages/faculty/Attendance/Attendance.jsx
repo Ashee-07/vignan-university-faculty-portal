@@ -347,20 +347,45 @@ export default function Attendance() {
           ) : (
             <>
               <div className="history-header">
-                <h3>Attendance History - {selectedClass.course}</h3>
-                <div className="history-stats">
-                  <div className="stat-card">
-                    <div className="stat-value">85%</div>
-                    <div className="stat-label">Average Attendance</div>
-                  </div>
-                  <div className="stat-card">
-                    <div className="stat-value">42/60</div>
-                    <div className="stat-label">Last Session</div>
-                  </div>
-                  <div className="stat-card">
-                    <div className="stat-value">18</div>
-                    <div className="stat-label">Sessions Taken</div>
-                  </div>
+                <h3>Attendance History & Archive</h3>
+                <p>Comprehensive record of all attendance sessions marked by you</p>
+              </div>
+
+              <div className="analytics-summary" style={{ marginBottom: '30px' }}>
+                <h4 style={{ marginBottom: '15px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <i className="fas fa-chart-bar" style={{ color: '#b8235a' }}></i> Subject-wise Performance
+                </h4>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: '20px' }}>
+                  {Object.entries(
+                    historyData.reduce((acc, curr) => {
+                      const key = `${curr.subject}`;
+                      if (!acc[key]) acc[key] = { present: 0, total: 0, count: 0, year: curr.year };
+                      acc[key].present += curr.present;
+                      acc[key].total += curr.total;
+                      acc[key].count += 1;
+                      return acc;
+                    }, {})
+                  ).map(([subject, stats]) => (
+                    <div key={subject} style={{ 
+                      background: 'white', 
+                      padding: '20px', 
+                      borderRadius: '16px', 
+                      border: '1px solid #e2e8f0',
+                      boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.05)'
+                    }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px' }}>
+                        <span style={{ fontSize: '0.7rem', color: '#b8235a', fontWeight: 700, textTransform: 'uppercase' }}>{stats.year} Year</span>
+                        <span style={{ fontSize: '0.7rem', color: '#64748b' }}>{stats.count} Classes</span>
+                      </div>
+                      <div style={{ fontSize: '0.95rem', fontWeight: 700, color: '#1e293b', marginBottom: '15px', height: '2.4em', overflow: 'hidden' }}>{subject}</div>
+                      <div style={{ display: 'flex', alignItems: 'flex-end', gap: '10px' }}>
+                        <div style={{ fontSize: '1.8rem', fontWeight: 800, color: '#0f172a', lineHeight: 1 }}>
+                          {stats.total > 0 ? Math.round((stats.present / stats.total) * 100) : 0}%
+                        </div>
+                        <div style={{ fontSize: '0.75rem', color: '#64748b', paddingBottom: '4px' }}>Avg Attendance</div>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
 
@@ -369,16 +394,27 @@ export default function Attendance() {
                   <thead>
                     <tr>
                       <th>Date</th>
+                      <th>Year</th>
+                      <th>Subject</th>
+                      <th>Type</th>
+                      <th>Topic</th>
                       <th>Present</th>
                       <th>Total</th>
                       <th>Percentage</th>
-                      <th>Status</th>
                     </tr>
                   </thead>
                   <tbody>
                     {historyData.map((record, idx) => (
                       <tr key={idx}>
                         <td>{record.date}</td>
+                        <td>{record.year}</td>
+                        <td>{record.subject}</td>
+                        <td>
+                          <span className={`type-badge-inline ${record.sessionType.toLowerCase()}`}>
+                            {record.sessionType}
+                          </span>
+                        </td>
+                        <td className="topic-cell" title={record.topic}>{record.topic || '-'}</td>
                         <td>{record.present}</td>
                         <td>{record.total}</td>
                         <td>
@@ -391,11 +427,6 @@ export default function Attendance() {
                             </div>
                             <span>{record.percentage}%</span>
                           </div>
-                        </td>
-                        <td>
-                          <span className={`attendance-status ${record.percentage >= 75 ? 'good' : record.percentage >= 60 ? 'average' : 'poor'}`}>
-                            {record.percentage >= 75 ? 'Good' : record.percentage >= 60 ? 'Average' : 'Poor'}
-                          </span>
                         </td>
                       </tr>
                     ))}

@@ -80,6 +80,9 @@ const attendanceService = {
             year: attendanceData.year || '3rd',
             section: 'A', // Assuming section for now
             period: attendanceData.period || '1', // Include period field
+            sessionType: attendanceData.sessionType || 'Theory',
+            topic: attendanceData.topic || '',
+            remarks: attendanceData.remarks || '',
             students: Object.keys(attendanceData.records).map(regNo => ({
                 regNo: regNo,
                 status: attendanceData.records[regNo]
@@ -98,6 +101,10 @@ const attendanceService = {
         // Filter for specific subject if needed
         return allHistory.filter(h => h.subject === classId).map(h => ({
             date: h.date,
+            year: h.year,
+            subject: h.subject,
+            sessionType: h.sessionType || 'Theory',
+            topic: h.topic || '',
             present: h.students.filter(s => s.status === 'Present').length,
             total: h.students.length,
             percentage: Math.round((h.students.filter(s => s.status === 'Present').length / h.students.length) * 100)

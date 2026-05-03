@@ -7,6 +7,9 @@ const AttendanceSchema = new mongoose.Schema({
     year: { type: String, required: true },
     section: { type: String, required: true },
     period: { type: String, required: true }, // "1", "2", "3", etc.
+    sessionType: { type: String, enum: ['Theory', 'Lab'], default: 'Theory' },
+    topic: { type: String },
+    remarks: { type: String },
     students: [{
         regNo: { type: String, required: true },
         status: { type: String, enum: ['Present', 'Absent'], required: true }
