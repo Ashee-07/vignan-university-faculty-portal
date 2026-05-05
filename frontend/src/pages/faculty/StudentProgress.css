@@ -245,20 +245,21 @@
 }
 
 .view-btn-premium {
-    background: transparent;
-    border: 1px solid #e2e8f0;
-    padding: 0.6rem 1.2rem;
-    border-radius: 10px;
-    font-weight: 700;
-    color: #475569;
+    background: #b8235a;
+    border: none;
+    padding: 0.6rem 1.4rem;
+    border-radius: 12px;
+    font-weight: 800;
+    color: white;
     cursor: pointer;
     transition: all 0.3s;
+    box-shadow: 0 4px 10px rgba(184, 35, 90, 0.2);
 }
 
 .view-btn-premium:hover {
-    background: #b8235a;
-    color: white;
-    border-color: #b8235a;
+    background: #961d4a;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(184, 35, 90, 0.3);
 }
 
 @keyframes fadeUp {
