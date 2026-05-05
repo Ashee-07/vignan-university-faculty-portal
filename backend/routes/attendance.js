@@ -1,10 +1,14 @@
 const express = require('express');
 const router = express.Router();
 const Attendance = require('../models/Attendance');
+const Subject = require('../models/Subject');
 
 router.get('/', async (req, res) => {
     try {
-        const attendance = await Attendance.find().sort({ date: -1 });
+        const attendance = await Attendance.find()
+            .populate('subjectId', 'name code')
+            .populate('facultyId', 'name facultyId')
+            .sort({ date: -1 });
         res.json(attendance);
     } catch (err) {
         res.status(500).json({ message: err.message });
@@ -13,10 +17,26 @@ router.get('/', async (req, res) => {
 
 router.post('/', async (req, res) => {
     try {
-        const { facultyId, subject, year, section, date, period } = req.body;
+        const { facultyId, subjectId, year, section, date, period } = req.body;
+
+        const mongoose = require('mongoose');
+        const Faculty = require('../models/Faculty');
+
+        // Resolve facultyId if string provided instead of ObjectId
+        let resolvedFacultyId = facultyId;
+        if (facultyId && !mongoose.Types.ObjectId.isValid(facultyId)) {
+            const fac = await Faculty.findOne({ facultyId: facultyId });
+            if (fac) resolvedFacultyId = fac._id;
+        }
+
+        // Resolve subjectId if string provided instead of ObjectId
+        let resolvedSubjectId = subjectId;
+        if (subjectId && !mongoose.Types.ObjectId.isValid(subjectId)) {
+            const sub = await Subject.findOne({ name: subjectId });
+            if (sub) resolvedSubjectId = sub._id;
+        }
 
         // Check if attendance already exists for this combination (Class + Date + Period)
-        // We removed facultyId and subject to ensure ONLY ONE attendance record per class/period
         const existing = await Attendance.findOne({
             year,
             section,
@@ -31,7 +51,15 @@ router.post('/', async (req, res) => {
             });
         }
 
-        const newAttendance = new Attendance(req.body);
+        const newAttendance = new Attendance({
+            facultyId: resolvedFacultyId,
+            subjectId: resolvedSubjectId,
+            year,
+            section,
+            date,
+            period,
+            students: req.body.students || []
+        });
         const saved = await newAttendance.save();
         res.status(201).json(saved);
     } catch (err) {

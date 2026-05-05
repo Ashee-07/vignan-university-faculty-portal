@@ -9,9 +9,6 @@ export default function StudentGrades() {
 
     // All grades fetched from backend
     const [allGrades, setAllGrades] = useState([]);
-    const [subjects, setSubjects] = useState([]);
-    const [selectedSubject, setSelectedSubject] = useState("");
-    const [displayedGrade, setDisplayedGrade] = useState(null);
 
     const [loading, setLoading] = useState(true);
 
@@ -34,15 +31,7 @@ export default function StudentGrades() {
         loadInitialData();
     }, []);
 
-    // Filter displayed grade when subject changes
-    useEffect(() => {
-        if (selectedSubject && allGrades.length > 0) {
-            const grade = allGrades.find(g => g.subject === selectedSubject);
-            setDisplayedGrade(grade || null);
-        } else {
-            setDisplayedGrade(null);
-        }
-    }, [selectedSubject, allGrades]);
+
 
     const fetchGrades = async () => {
         try {
@@ -60,13 +49,8 @@ export default function StudentGrades() {
                     grade: calculateGrade(g.total || 0)
                 }));
                 setAllGrades(mappedGrades);
-
-                // Extract unique subjects
-                const uniqueSubjects = [...new Set(mappedGrades.map(g => g.subject))];
-                setSubjects(uniqueSubjects);
             } else {
                 setAllGrades([]);
-                setSubjects([]);
             }
 
         } catch (err) {
@@ -87,20 +71,18 @@ export default function StudentGrades() {
         return "F";
     };
 
+    const gradePointsMap = {
+        "A+": 10,
+        "A": 9,
+        "B+": 8,
+        "B": 7,
+        "C": 6,
+        "F": 0
+    };
+
     const calculateCGPA = () => {
         if (allGrades.length === 0) return "0.00";
-
-        // Convert grades to grade points (A+=10, A=9, B+=8, B=7, C=6, F=0)
-        const gradePoints = {
-            "A+": 10,
-            "A": 9,
-            "B+": 8,
-            "B": 7,
-            "C": 6,
-            "F": 0
-        };
-
-        const totalPoints = allGrades.reduce((acc, curr) => acc + (gradePoints[curr.grade] || 0), 0);
+        const totalPoints = allGrades.reduce((acc, curr) => acc + (gradePointsMap[curr.grade] || 0), 0);
         return (totalPoints / allGrades.length).toFixed(2);
     };
 
@@ -136,32 +118,7 @@ export default function StudentGrades() {
                 </div>
             ) : (
                 <>
-                    {/* Subject Selection */}
-                    <div className="subject-selection-container" style={{ margin: '20px 0', textAlign: 'center' }}>
-                        <h3 style={{ marginBottom: '10px', color: '#1e293b' }}>Select Verified Subject</h3>
-                        <select
-                            className="subject-dropdown"
-                            value={selectedSubject}
-                            onChange={(e) => setSelectedSubject(e.target.value)}
-                            style={{
-                                padding: '10px 20px',
-                                fontSize: '1rem',
-                                borderRadius: '8px',
-                                border: '1px solid #cbd5e1',
-                                minWidth: '300px',
-                                outline: 'none',
-                                cursor: 'pointer'
-                            }}
-                        >
-                            <option value="">-- Choose Subject --</option>
-                            {subjects.map(sub => (
-                                <option key={sub} value={sub}>{sub}</option>
-                            ))}
-                        </select>
-                    </div>
-
-                    {/* Displayed Grade Card */}
-                    {displayedGrade ? (
+                    {allGrades.length > 0 ? (
                         <div className="grades-table-container">
                             <table className="grades-table">
                                 <thead>
@@ -173,46 +130,49 @@ export default function StudentGrades() {
                                         <th>Asgn (50)</th>
                                         <th>Total (200)</th>
                                         <th>Grade</th>
+                                        <th>Subject CGPA</th>
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    {allGrades.map((g, index) => (
+                                        <tr key={index}>
+                                            <td className="subject-name">{g.subject}</td>
+                                            <td>{g.midterm1}</td>
+                                            <td>{g.midterm2}</td>
+                                            <td>{g.semester}</td>
+                                            <td>{g.assignment}</td>
+                                            <td className="overall-score">{g.total}</td>
+                                            <td>
+                                                <span
+                                                    className="grade-badge"
+                                                    style={{
+                                                        background: getGradeColor(g.grade),
+                                                        color: 'white'
+                                                    }}
+                                                >
+                                                    {g.grade}
+                                                </span>
+                                            </td>
+                                            <td className="subject-cgpa">
+                                                {gradePointsMap[g.grade] || 0}.00
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                                <tfoot>
                                     <tr>
-                                        <td className="subject-name">{displayedGrade.subject}</td>
-                                        <td>{displayedGrade.midterm1}</td>
-                                        <td>{displayedGrade.midterm2}</td>
-                                        <td>{displayedGrade.semester}</td>
-                                        <td>{displayedGrade.assignment}</td>
-                                        <td className="overall-score">{displayedGrade.total}</td>
-                                        <td>
-                                            <span
-                                                className="grade-badge"
-                                                style={{
-                                                    background: getGradeColor(displayedGrade.grade),
-                                                    color: 'white'
-                                                }}
-                                            >
-                                                {displayedGrade.grade}
-                                            </span>
+                                        <td colSpan="7" className="total-cgpa-label">Total CGPA</td>
+                                        <td className="total-cgpa-value">
+                                            {calculateCGPA()}
                                         </td>
                                     </tr>
-                                </tbody>
+                                </tfoot>
                             </table>
-
-                            <div className="pass-status" style={{ textAlign: 'center', marginTop: '20px', padding: '15px', background: '#f8fafc', borderRadius: '8px' }}>
-                                <strong>Status: </strong>
-                                <span style={{
-                                    color: displayedGrade.grade === 'F' ? '#ef4444' : '#10b981',
-                                    fontWeight: 'bold',
-                                    fontSize: '1.1rem'
-                                }}>
-                                    {displayedGrade.grade === 'F' ? 'FAIL' : 'PASS'}
-                                </span>
-                            </div>
                         </div>
                     ) : (
                         <div className="no-selection-placeholder" style={{ textAlign: 'center', padding: '40px', color: '#64748b' }}>
-                            <i className="fas fa-arrow-up" style={{ fontSize: '2rem', marginBottom: '10px' }}></i>
-                            <p>Please select a subject above to view your detailed result.</p>
+                            <i className="fas fa-exclamation-circle" style={{ fontSize: '2rem', marginBottom: '10px' }}></i>
+                            <p>No academic records found for your registration ID.</p>
                         </div>
                     )}
                 </>

@@ -96,6 +96,32 @@ const PublicRoute = ({ children, roleToRedirect }) => {
 };
 
 export default function App() {
+  // Session Monitoring (Auto-logout after 30 minutes)
+  React.useEffect(() => {
+    const checkSession = () => {
+      const userRole = localStorage.getItem("userRole");
+      const loginTime = localStorage.getItem("loginTime");
+      
+      if (userRole && loginTime) {
+        const currentTime = Date.now();
+        const elapsedTime = currentTime - parseInt(loginTime);
+        const thirtyMinutes = 30 * 60 * 1000;
+
+        if (elapsedTime > thirtyMinutes) {
+          console.warn("Session expired. Logging out...");
+          localStorage.clear();
+          window.location.href = "/"; // Force redirect to splash/login
+        }
+      }
+    };
+
+    // Check every 30 seconds
+    const interval = setInterval(checkSession, 30000);
+    checkSession(); // Initial check
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
       <Routes>
@@ -160,37 +186,3 @@ export default function App() {
   );
 }
 
-// Placeholder component for module pages
-function PlaceholderPage({ title }) {
-  return (
-    <div style={{
-      minHeight: '100vh',
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'center',
-      background: 'linear-gradient(135deg, #b8235a 0%, #d66193 50%, #ffa0be 100%)',
-      color: 'white',
-      fontFamily: 'Poppins, sans-serif',
-      padding: '20px'
-    }}>
-      <h1 style={{ fontSize: '2.5rem', marginBottom: '20px' }}>{title}</h1>
-      <p style={{ fontSize: '1.2rem', marginBottom: '30px' }}>This module is under development</p>
-      <button
-        onClick={() => window.history.back()}
-        style={{
-          padding: '12px 30px',
-          background: 'white',
-          color: '#b8235a',
-          border: 'none',
-          borderRadius: '8px',
-          fontSize: '1rem',
-          fontWeight: '600',
-          cursor: 'pointer'
-        }}
-      >
-        Go Back
-      </button>
-    </div>
-  );
-}

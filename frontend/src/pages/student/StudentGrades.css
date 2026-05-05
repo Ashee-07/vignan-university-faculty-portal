@@ -168,6 +168,31 @@
     color: #ef4444;
 }
 
+.grades-table tfoot tr {
+    background: #f8fafc;
+    border-top: 2px solid #e2e8f0;
+}
+
+.grades-table tfoot td {
+    padding: 1.5rem 1rem;
+}
+
+.subject-cgpa {
+    font-weight: 700;
+    color: #1e293b;
+}
+
+.total-cgpa-label {
+    text-align: right;
+    font-weight: 700;
+}
+
+.total-cgpa-value {
+    font-size: 1.2rem;
+    color: #4facfe;
+    font-weight: 800;
+}
+
 .grades-footer {
     margin-top: 2rem;
     text-align: center;

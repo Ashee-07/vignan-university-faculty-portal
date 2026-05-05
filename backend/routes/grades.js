@@ -108,23 +108,26 @@ router.get('/:regNo', async (req, res) => {
             allGrades = [...allGrades, ...subjectsWithYear];
         });
 
-        // Calculate CGPA (Mock calculation based on grades present)
-        // Note: Real CGPA would need proper credit weighting logic
-        let cgpa = 0;
-        if (allGrades.length > 0) {
-            // Simple mapping for grade points
-            const getPoints = (grade) => {
-                if (grade === 'A+') return 10;
-                if (grade === 'A') return 9;
-                if (grade === 'B+') return 8;
-                if (grade === 'B') return 7;
-                if (grade === 'C') return 6;
-                return 0;
-            };
-
-            const totalPoints = allGrades.reduce((sum, g) => sum + getPoints(g.grade), 0);
-            cgpa = (totalPoints / allGrades.length).toFixed(2);
-        }
+    // Calculate CGPA (Weighted by credits)
+    let cgpa = 0;
+    if (allGrades.length > 0) {
+        const getPoints = (grade) => {
+            if (grade === 'A+') return 10;
+            if (grade === 'A') return 9;
+            if (grade === 'B+') return 8;
+            if (grade === 'B') return 7;
+            if (grade === 'C') return 6;
+            return 0;
+        };
+        let totalCredits = 0;
+        let weightedSum = 0;
+        allGrades.forEach(g => {
+            const credits = g.credits || 3;
+            totalCredits += credits;
+            weightedSum += getPoints(g.grade) * credits;
+        });
+        cgpa = totalCredits > 0 ? (weightedSum / totalCredits).toFixed(2) : 0;
+    }
 
         res.json({
             regNo: student.regNo,
@@ -144,7 +147,7 @@ router.get('/class/:year/:department', async (req, res) => {
         const { year, department } = req.params;
 
         // 1. Get all students for this class
-        const students = await Student.find({ year, department });
+        const students = await Student.find({ year, department }).sort({ regNo: 1 });
 
         // 2. Get all grades for these students for this year
         const studentRegNos = students.map(s => s.regNo);

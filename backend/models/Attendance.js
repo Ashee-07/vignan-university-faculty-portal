@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 
 const AttendanceSchema = new mongoose.Schema({
-    facultyId: { type: String, required: true },
-    subject: { type: String, required: true },
+    facultyId: { type: mongoose.Schema.Types.ObjectId, ref: 'Faculty', required: true },
+    subjectId: { type: mongoose.Schema.Types.ObjectId, ref: 'Subject', required: true },
     date: { type: String, required: true },
     year: { type: String, required: true },
     section: { type: String, required: true },

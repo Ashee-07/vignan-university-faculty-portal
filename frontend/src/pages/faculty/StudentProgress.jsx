@@ -21,7 +21,7 @@ export default function StudentProgress() {
         const fetchedCourses = await progressService.getTrackedCourses();
         setCourses(fetchedCourses);
         if (fetchedCourses.length > 0) {
-          const defaultCourse = fetchedCourses[0].id;
+          const defaultCourse = fetchedCourses[0].name;
           setSelectedCourse(defaultCourse);
           const data = await progressService.getCourseProgress(defaultCourse);
           setStudents(data);
@@ -36,11 +36,11 @@ export default function StudentProgress() {
   }, []);
 
   // Handle course change
-  const handleCourseChange = async (courseId) => {
+  const handleCourseChange = async (courseName) => {
     try {
-      setSelectedCourse(courseId);
+      setSelectedCourse(courseName);
       setIsLoading(true);
-      const data = await progressService.getCourseProgress(courseId);
+      const data = await progressService.getCourseProgress(courseName);
       setStudents(data);
     } catch (err) {
       setError(err.message);
@@ -56,12 +56,7 @@ export default function StudentProgress() {
     return 'critical';
   };
 
-  const getOverallGrade = (score) => {
-    if (score >= 90) return 'A';
-    if (score >= 75) return 'B';
-    if (score >= 60) return 'C';
-    return 'F';
-  };
+
 
   const filteredStudents = students.filter(s =>
     s.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -126,7 +121,7 @@ export default function StudentProgress() {
               onChange={(e) => handleCourseChange(e.target.value)}
             >
               {courses.map(course => (
-                <option key={course.id} value={course.id}>{course.id} - {course.name}</option>
+                <option key={course.id} value={course.name}>{course.id} - {course.name}</option>
               ))}
             </select>
           </div>
@@ -166,7 +161,7 @@ export default function StudentProgress() {
                     </span>
                   </td>
                   <td>
-                    <span className="assignments-pill">{student.assignments}/10</span>
+                    <span className="assignments-pill">{student.assignments}/50</span>
                   </td>
                   <td>
                     <span className={`percentage-chip ${getStatusClass(student.exams)}`}>
@@ -177,12 +172,17 @@ export default function StudentProgress() {
                     <span className="overall-score-txt" style={{ fontWeight: 800 }}>{student.overall}%</span>
                   </td>
                   <td>
-                    <span className={`overall-score ${getOverallGrade(student.overall).toLowerCase()}`}>
-                      {getOverallGrade(student.overall)}
+                    <span className={`overall-score ${student.grade.toLowerCase()}`}>
+                      {student.grade}
                     </span>
                   </td>
                   <td>
-                    <button className="view-btn-premium">Analysis</button>
+                    <button 
+                      className="view-btn-premium"
+                      onClick={() => navigate('/student-performance', { state: { search: student.id } })}
+                    >
+                      Analysis
+                    </button>
                   </td>
                 </tr>
               ))}

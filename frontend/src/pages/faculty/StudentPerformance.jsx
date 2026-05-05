@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import apiClient from "../../services/api";
 import "../ModulePage.css";
+import "./StudentProgress.css"; // Reuse the premium CSS from Student Progress
 
 export default function StudentPerformance() {
+    const location = useLocation();
+    const navigate = useNavigate();
     const [students, setStudents] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [filterYear, setFilterYear] = useState("all");
-    const [searchQuery, setSearchQuery] = useState("");
+    const [searchQuery, setSearchQuery] = useState(location.state?.search || "");
 
     useEffect(() => {
         fetchStudents();
@@ -20,17 +23,14 @@ export default function StudentPerformance() {
             setStudents(response.data);
         } catch (err) {
             console.error("Failed to fetch students", err);
-            alert("Error fetching student performance data");
         } finally {
             setLoading(false);
         }
     };
 
     const filteredStudents = students.filter(s => {
-        const matchesYear = filterYear === "all" || s.year === filterYear;
-        const matchesSearch = s.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        return s.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
             s.regNo.toLowerCase().includes(searchQuery.toLowerCase());
-        return matchesYear && matchesSearch;
     });
 
     const getAttendanceColor = (percentage) => {
@@ -45,29 +45,76 @@ export default function StudentPerformance() {
         return "#ef233c";
     };
 
-    return (
-        <div className="module-page">
-            <header className="module-header">
-                <div className="module-title">
-                    <h2>Student Performance Analytics</h2>
-                    <p>View attendance and academic performance of students you teach</p>
-                </div>
-            </header>
+    const getStatusClass = (percentage) => {
+        if (percentage >= 75) return "high";
+        if (percentage >= 60) return "mid";
+        return "critical";
+    };
 
-            <section className="controls-section glass-card">
-                <div className="controls-grid">
-                    <div className="input-group">
-                        <label>Filter by Year</label>
-                        <select value={filterYear} onChange={(e) => setFilterYear(e.target.value)}>
-                            <option value="all">All Years</option>
-                            <option value="1st">1st Year</option>
-                            <option value="2nd">2nd Year</option>
-                            <option value="3rd">3rd Year</option>
-                            <option value="4th">4th Year</option>
-                        </select>
+    const stats = {
+        total: filteredStudents.length,
+        avgAttendance: filteredStudents.length > 0 
+            ? (filteredStudents.reduce((sum, s) => sum + s.attendancePercentage, 0) / filteredStudents.length).toFixed(1)
+            : 0,
+        avgCGPA: filteredStudents.filter(s => s.cgpa > 0).length > 0
+            ? (filteredStudents.filter(s => s.cgpa > 0).reduce((sum, s) => sum + s.cgpa, 0) / filteredStudents.filter(s => s.cgpa > 0).length).toFixed(2)
+            : "N/A",
+        lowAttendance: filteredStudents.filter(s => s.attendancePercentage < 75).length
+    };
+
+    if (loading && students.length === 0) {
+        return (
+            <div className="progress-container">
+                <main className="progress-main-content">
+                    <div className="loading-state" style={{ textAlign: 'center', padding: '5rem' }}>
+                        <i className="fas fa-spinner fa-spin" style={{ fontSize: '3rem', color: '#b8235a' }}></i>
+                        <p style={{ marginTop: '1.5rem', fontWeight: 600 }}>Analyzing performance data...</p>
                     </div>
-                    <div className="input-group">
-                        <label>Search Student</label>
+                </main>
+            </div>
+        );
+    }
+
+    return (
+        <div className="progress-container">
+            <main className="progress-main-content">
+                <header className="page-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <div className="header-info">
+                        <h2>Student Performance Analytics <i className="fas fa-chart-pie"></i></h2>
+                        <p>View attendance and academic performance of students you teach</p>
+                    </div>
+                    <button 
+                        className="view-btn-premium"
+                        onClick={() => navigate('/student-progress')} 
+                        style={{ display: 'flex', alignItems: 'center', gap: '8px' }}
+                    >
+                        <i className="fas fa-arrow-left"></i> Back to Progress
+                    </button>
+                </header>
+
+                {/* Stats Bento Grid */}
+                <div className="progress-stats-grid">
+                    <div className="stat-card-premium">
+                        <span className="stat-label">Total Students</span>
+                        <span className="stat-value">{stats.total}</span>
+                    </div>
+                    <div className="stat-card-premium">
+                        <span className="stat-label">Avg. Attendance</span>
+                        <span className="stat-value">{stats.avgAttendance}%</span>
+                    </div>
+                    <div className="stat-card-premium">
+                        <span className="stat-label">Avg. CGPA</span>
+                        <span className="stat-value">{stats.avgCGPA}</span>
+                    </div>
+                    <div className="stat-card-premium">
+                        <span className="stat-label" style={{ color: '#ef233c' }}>Low Attendance</span>
+                        <span className="stat-value" style={{ color: '#ef233c' }}>{stats.lowAttendance}</span>
+                    </div>
+                </div>
+
+                <div className="progress-action-bar">
+                    <div className="progress-search">
+                        <i className="fas fa-search"></i>
                         <input
                             type="text"
                             placeholder="Search by name or reg no..."
@@ -76,14 +123,8 @@ export default function StudentPerformance() {
                         />
                     </div>
                 </div>
-            </section>
 
-            {loading ? (
-                <div className="loading-state">
-                    <i className="fas fa-spinner fa-spin"></i> Loading student data...
-                </div>
-            ) : (
-                <section className="table-container glass-card">
+                <div className="table-container-premium">
                     <table className="premium-table">
                         <thead>
                             <tr>
@@ -91,97 +132,62 @@ export default function StudentPerformance() {
                                 <th>Name</th>
                                 <th>Year</th>
                                 <th>Section</th>
-                                <th>Attendance %</th>
                                 <th>Classes</th>
+                                <th>Attendance %</th>
                                 <th>CGPA</th>
                                 <th>Status</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {filteredStudents.map(student => (
-                                <tr key={student.regNo}>
-                                    <td className="bold-text">{student.regNo}</td>
-                                    <td>{student.name}</td>
-                                    <td>{student.year}</td>
-                                    <td>{student.section}</td>
-                                    <td>
-                                        <span style={{
-                                            color: getAttendanceColor(student.attendancePercentage),
-                                            fontWeight: 'bold',
-                                            fontSize: '1.1rem'
-                                        }}>
-                                            {student.attendancePercentage.toFixed(1)}%
-                                        </span>
-                                    </td>
-                                    <td>
-                                        <span style={{ fontSize: '0.9rem', color: '#94a3b8' }}>
-                                            {student.presentClasses}/{student.totalClasses}
-                                        </span>
-                                    </td>
-                                    <td>
-                                        <span style={{
-                                            color: getCGPAColor(student.cgpa),
-                                            fontWeight: 'bold',
-                                            fontSize: '1.1rem'
-                                        }}>
-                                            {student.cgpa > 0 ? student.cgpa.toFixed(2) : 'N/A'}
-                                        </span>
-                                    </td>
-                                    <td>
-                                        {student.attendancePercentage >= 75 ? (
-                                            <span className="status-badge active">Good</span>
-                                        ) : student.attendancePercentage >= 60 ? (
-                                            <span className="status-badge warning">Warning</span>
-                                        ) : (
-                                            <span className="status-badge inactive">Critical</span>
-                                        )}
+                            {filteredStudents.length > 0 ? (
+                                filteredStudents.map((student, idx) => (
+                                    <tr key={student.regNo} style={{ '--i': idx }}>
+                                        <td className="student-id">{student.regNo}</td>
+                                        <td className="student-name">{student.name}</td>
+                                        <td>{student.year}</td>
+                                        <td>{student.section}</td>
+                                        <td>
+                                            <span style={{ fontSize: '0.9rem', color: '#94a3b8' }}>
+                                                {student.presentClasses} / {student.totalClasses}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span className={`percentage-chip ${getStatusClass(student.attendancePercentage)}`}>
+                                                {student.attendancePercentage.toFixed(1)}%
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span style={{
+                                                color: getCGPAColor(student.cgpa),
+                                                fontWeight: 'bold',
+                                                fontSize: '1.1rem'
+                                            }}>
+                                                {student.cgpa > 0 ? student.cgpa.toFixed(2) : 'N/A'}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            {student.attendancePercentage >= 75 ? (
+                                                <span className="overall-score a" style={{ padding: '6px 12px', fontSize: '0.85rem' }}>Good</span>
+                                            ) : student.attendancePercentage >= 60 ? (
+                                                <span className="overall-score c" style={{ padding: '6px 12px', fontSize: '0.85rem' }}>Warning</span>
+                                            ) : (
+                                                <span className="overall-score f" style={{ padding: '6px 12px', fontSize: '0.85rem' }}>Critical</span>
+                                            )}
+                                        </td>
+                                    </tr>
+                                ))
+                            ) : (
+                                <tr>
+                                    <td colSpan="8" style={{ textAlign: 'center', padding: '3rem', color: '#94a3b8' }}>
+                                        <i className="fas fa-inbox" style={{ fontSize: '2.5rem', marginBottom: '1rem', display: 'block' }}></i>
+                                        No students found matching your criteria.
                                     </td>
                                 </tr>
-                            ))}
+                            )}
                         </tbody>
                     </table>
-                    {filteredStudents.length === 0 && (
-                        <div style={{ textAlign: 'center', padding: '40px', color: '#94a3b8' }}>
-                            <i className="fas fa-inbox" style={{ fontSize: '3rem', marginBottom: '15px' }}></i>
-                            <p>No students found matching your criteria</p>
-                        </div>
-                    )}
-                </section>
-            )}
-
-            <section className="stats-summary glass-card" style={{ marginTop: '20px', padding: '20px' }}>
-                <h3 style={{ marginBottom: '15px', color: '#4cc9f0' }}>
-                    <i className="fas fa-chart-bar"></i> Summary Statistics
-                </h3>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '15px' }}>
-                    <div className="stat-card">
-                        <p>Total Students</p>
-                        <h3 style={{ color: '#4cc9f0' }}>{filteredStudents.length}</h3>
-                    </div>
-                    <div className="stat-card">
-                        <p>Avg Attendance</p>
-                        <h3 style={{ color: '#4361ee' }}>
-                            {filteredStudents.length > 0
-                                ? (filteredStudents.reduce((sum, s) => sum + s.attendancePercentage, 0) / filteredStudents.length).toFixed(1)
-                                : 0}%
-                        </h3>
-                    </div>
-                    <div className="stat-card">
-                        <p>Avg CGPA</p>
-                        <h3 style={{ color: '#7209b7' }}>
-                            {filteredStudents.filter(s => s.cgpa > 0).length > 0
-                                ? (filteredStudents.filter(s => s.cgpa > 0).reduce((sum, s) => sum + s.cgpa, 0) / filteredStudents.filter(s => s.cgpa > 0).length).toFixed(2)
-                                : 'N/A'}
-                        </h3>
-                    </div>
-                    <div className="stat-card">
-                        <p>Low Attendance</p>
-                        <h3 style={{ color: '#ef233c' }}>
-                            {filteredStudents.filter(s => s.attendancePercentage < 75).length}
-                        </h3>
-                    </div>
                 </div>
-            </section>
+            </main>
         </div>
     );
 }

@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
+
 const AssignmentSchema = new mongoose.Schema({
-    facultyId: { type: String, required: true },
-    subject: { type: String, required: true },
+    facultyId: { type: mongoose.Schema.Types.ObjectId, ref: 'Faculty', required: true },
+    subjectId: { type: mongoose.Schema.Types.ObjectId, ref: 'Subject', required: true },
     title: { type: String, required: true },
     description: { type: String },
     deadline: { type: String, required: true },

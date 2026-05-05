@@ -14,6 +14,7 @@ export default function Attendance() {
   const [todayDate, setTodayDate] = useState("");
   const [currentDayName, setCurrentDayName] = useState("");
   const [classesList, setClassesList] = useState([]);
+  const [selectedYear, setSelectedYear] = useState("");
   const [selectedClass, setSelectedClass] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -103,7 +104,7 @@ export default function Attendance() {
         const fetchHistory = async () => {
           try {
             setIsLoading(true);
-            const history = await attendanceService.getAttendanceHistory(selectedClass.id || selectedClass.course);
+            const history = await attendanceService.getAttendanceHistory(selectedClass.course);
             setHistoryData(history);
           } catch (err) {
             setError("Failed to load history: " + err.message);
@@ -187,17 +188,41 @@ export default function Attendance() {
 
         <div className="controls-panel">
           <div className="control-group">
-            <label>Select Class</label>
-            <select className="class-select" onChange={(e) => {
-              const cls = classesList.find(c => c.id === Number(e.target.value) || c.course === e.target.value);
-              setSelectedClass(cls);
-            }} value={selectedClass?.id || selectedClass?.course || ""}>
-              <option value="">-- Choose a Class --</option>
-              {classesList.map((cls, idx) => (
-                <option key={idx} value={cls.id || cls.course}>
-                  {viewMode === 'mark' ? `[${cls.year}] ${cls.time} | ${cls.course} (${cls.room})` : `[${cls.year}] ${cls.course} (${cls.type})`}
-                </option>
+            <label>Select Year</label>
+            <select 
+              className="class-select" 
+              onChange={(e) => {
+                setSelectedYear(e.target.value);
+                setSelectedClass(null); // Reset subject when year changes
+              }} 
+              value={selectedYear}
+            >
+              <option value="">-- Choose Year --</option>
+              {[...new Set(classesList.map(c => c.year))].sort().map(year => (
+                <option key={year} value={year}>{year} Year</option>
               ))}
+            </select>
+          </div>
+
+          <div className="control-group">
+            <label>Select Subject</label>
+            <select 
+              className="class-select" 
+              onChange={(e) => {
+                const cls = classesList.find(c => (c.id === Number(e.target.value) || c.course === e.target.value) && c.year === selectedYear);
+                setSelectedClass(cls);
+              }} 
+              value={selectedClass?.id || selectedClass?.course || ""}
+              disabled={!selectedYear}
+            >
+              <option value="">-- Choose Subject --</option>
+              {classesList
+                .filter(c => c.year === selectedYear)
+                .map((cls, idx) => (
+                  <option key={idx} value={cls.id || cls.course}>
+                    {cls.course} {viewMode === 'mark' ? `(${cls.time})` : ''}
+                  </option>
+                ))}
             </select>
           </div>
 
@@ -396,6 +421,7 @@ export default function Attendance() {
                       <th>Date</th>
                       <th>Year</th>
                       <th>Subject</th>
+                      <th>Period</th>
                       <th>Type</th>
                       <th>Topic</th>
                       <th>Present</th>
@@ -409,6 +435,7 @@ export default function Attendance() {
                         <td>{record.date}</td>
                         <td>{record.year}</td>
                         <td>{record.subject}</td>
+                        <td style={{ fontWeight: 700, color: '#b8235a' }}>P{record.period}</td>
                         <td>
                           <span className={`type-badge-inline ${record.sessionType.toLowerCase()}`}>
                             {record.sessionType}

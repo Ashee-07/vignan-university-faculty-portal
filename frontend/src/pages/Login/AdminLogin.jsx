@@ -42,6 +42,7 @@ export default function AdminLogin() {
 
       // Store admin credentials in localStorage
       localStorage.setItem("userRole", "admin");
+      localStorage.setItem("loginTime", Date.now().toString());
       localStorage.setItem("adminName", admin.name || adminId);
       localStorage.setItem("adminDepartment", department);
       navigate("/admin-dashboard");

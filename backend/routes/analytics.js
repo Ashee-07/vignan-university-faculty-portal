@@ -3,6 +3,7 @@ const router = express.Router();
 const Student = require('../models/Student');
 const Attendance = require('../models/Attendance');
 const Faculty = require('../models/Faculty');
+const Grade = require('../models/Grade');
 
 // Get attendance percentage for a specific student
 router.get('/attendance/:regNo', async (req, res) => {
@@ -51,7 +52,7 @@ router.get('/attendance/class/:year/:department', async (req, res) => {
     try {
         const { year, department } = req.params;
 
-        const students = await Student.find({ year, department });
+        const students = await Student.find({ year, department }).sort({ regNo: 1 });
 
         const stats = await Promise.all(students.map(async (student) => {
             const totalClasses = await Attendance.countDocuments({
@@ -104,7 +105,7 @@ router.get('/faculty/:facultyId/students', async (req, res) => {
         const students = await Student.find({
             year: { $in: assignedYears },
             department: faculty.department
-        });
+        }).sort({ regNo: 1 });
 
         // Calculate attendance % for each student
         const studentsWithStats = await Promise.all(students.map(async (student) => {
@@ -125,12 +126,15 @@ router.get('/faculty/:facultyId/students', async (req, res) => {
 
             const attendancePercentage = totalClasses > 0 ? ((presentClasses / totalClasses) * 100).toFixed(2) : 0;
 
-            // Calculate CGPA if grades exist
+            // Calculate CGPA from Grade collection
             let cgpa = 0;
-            if (student.grades && student.grades.length > 0) {
-                const totalCredits = student.grades.reduce((sum, g) => sum + (g.credits || 3), 0);
-                const weightedSum = student.grades.reduce((sum, g) => sum + (g.gradePoint || 0) * (g.credits || 3), 0);
-                cgpa = totalCredits > 0 ? (weightedSum / totalCredits).toFixed(2) : 0;
+            const studentGradesDoc = await Grade.findOne({ studentRegNo: student.regNo, year: student.year });
+            if (studentGradesDoc && studentGradesDoc.subjects && studentGradesDoc.subjects.length > 0) {
+                const gradePointsMap = {
+                    "A+": 10, "A": 9, "B+": 8, "B": 7, "C": 6, "F": 0
+                };
+                const totalPoints = studentGradesDoc.subjects.reduce((sum, s) => sum + (gradePointsMap[s.grade] || 0), 0);
+                cgpa = (totalPoints / studentGradesDoc.subjects.length).toFixed(2);
             }
 
             return {
@@ -157,7 +161,7 @@ router.get('/department/:dept', async (req, res) => {
     try {
         const { dept } = req.params;
 
-        const students = await Student.find({ department: dept });
+        const students = await Student.find({ department: dept }).sort({ regNo: 1 });
 
         let totalAttendanceSum = 0;
         let totalCgpaSum = 0;
@@ -183,11 +187,14 @@ router.get('/department/:dept', async (req, res) => {
             const attendancePercentage = totalClasses > 0 ? (presentClasses / totalClasses) * 100 : 0;
             totalAttendanceSum += attendancePercentage;
 
-            // Calculate CGPA if grades exist
-            if (student.grades && student.grades.length > 0) {
-                const totalCredits = student.grades.reduce((sum, g) => sum + (g.credits || 3), 0);
-                const weightedSum = student.grades.reduce((sum, g) => sum + (g.gradePoint || 0) * (g.credits || 3), 0);
-                const cgpa = totalCredits > 0 ? weightedSum / totalCredits : 0;
+            // Calculate CGPA from Grade collection
+            const studentGradesDoc = await Grade.findOne({ studentRegNo: student.regNo, year: student.year });
+            if (studentGradesDoc && studentGradesDoc.subjects && studentGradesDoc.subjects.length > 0) {
+                const gradePointsMap = {
+                    "A+": 10, "A": 9, "B+": 8, "B": 7, "C": 6, "F": 0
+                };
+                const totalPoints = studentGradesDoc.subjects.reduce((sum, s) => sum + (gradePointsMap[s.grade] || 0), 0);
+                const cgpa = totalPoints / studentGradesDoc.subjects.length;
                 totalCgpaSum += cgpa;
                 studentsWithGrades++;
             }

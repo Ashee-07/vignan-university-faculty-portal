@@ -103,6 +103,7 @@ const attendanceService = {
             date: h.date,
             year: h.year,
             subject: h.subject,
+            period: h.period,
             sessionType: h.sessionType || 'Theory',
             topic: h.topic || '',
             present: h.students.filter(s => s.status === 'Present').length,

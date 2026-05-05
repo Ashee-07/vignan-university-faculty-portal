@@ -55,6 +55,7 @@ export default function FacultyLogin() {
       localStorage.setItem("facultyId", facultyId);
       localStorage.setItem("facultyName", facultyMember.name);
       localStorage.setItem("facultyDepartment", department);
+      localStorage.setItem("loginTime", Date.now().toString());
 
       navigate("/faculty-dashboard");
 

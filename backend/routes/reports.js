@@ -33,16 +33,40 @@ router.get('/excel', async (req, res) => {
                 { header: 'Register ID', key: 'regId', width: 15 },
                 { header: 'Name', key: 'name', width: 25 },
                 { header: 'Year', key: 'year', width: 10 },
-                { header: 'Aggregate GPA/Total', key: 'total', width: 20 }
+                { header: 'Aggregate GPA/Total', key: 'total', width: 20 },
+                { header: 'CGPA', key: 'cgpa', width: 15 }
             ];
             const students = await Student.find({ year }).sort({ regNo: 1 });
             const gradeDocs = await Grade.find({ studentRegNo: { $in: students.map(s => s.regNo) }, year });
             
+            const getPoints = (grade) => {
+                if (grade === 'A+') return 10;
+                if (grade === 'A') return 9;
+                if (grade === 'B+') return 8;
+                if (grade === 'B') return 7;
+                if (grade === 'C') return 6;
+                return 0;
+            };
+
             students.forEach(s => {
                 const g = gradeDocs.find(gd => gd.studentRegNo === s.regNo);
                 let totalMarks = 0;
-                if (g) g.subjects.forEach(sub => totalMarks += (sub.total || 0));
-                sheet.addRow({ regId: s.regNo, name: s.name, year, total: totalMarks });
+                let cgpa = 0;
+
+                if (g && g.subjects && g.subjects.length > 0) {
+    let totalCredits = 0;
+    let weightedSum = 0;
+    g.subjects.forEach(sub => {
+        totalMarks += (sub.total || 0);
+        const points = getPoints(sub.grade);
+        const credit = sub.credits || 3;
+        weightedSum += points * credit;
+        totalCredits += credit;
+    });
+    cgpa = totalCredits > 0 ? parseFloat((weightedSum / totalCredits).toFixed(2)) : 0;
+}
+                
+                sheet.addRow({ regId: s.regNo, name: s.name, year, total: totalMarks, cgpa });
             });
         } else {
             sheet.columns = [

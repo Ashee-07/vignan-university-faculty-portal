@@ -11,7 +11,7 @@ router.get('/', async (req, res) => {
         if (year) filter.year = year;
         if (section) filter.section = section;
 
-        const students = await Student.find(filter);
+        const students = await Student.find(filter).sort({ regNo: 1 });
         res.json(students);
     } catch (err) {
         console.error("Error in GET /api/students:", err);
